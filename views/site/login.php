@@ -7,13 +7,13 @@
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 
-$this->title = 'Login';
+$this->title = Yii::t('app', 'login');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-login">
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>Please fill out the following fields to login:</p>
+    <p>Введіть ім'я користувача та пароль</p>
 
     <?php $form = ActiveForm::begin([
         'id' => 'login-form',

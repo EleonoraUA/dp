@@ -3,25 +3,33 @@
 $params = require(__DIR__ . '/params.php');
 
 $config = [
+
     'id' => 'basic',
+    'language' => 'uk',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'modules' => [
+        'gridview' => ['class' => 'kartik\grid\Module'],
+        'rbac' =>  [
+        'class' => 'johnitvn\rbacplus\Module',
+        'userModelClassName'=>null,
+        'userModelIdField'=>'id',
+        'userModelLoginField'=>'username',
+        'userModelLoginFieldLabel'=>null,
+        'userModelExtraDataColumls'=>null,
+        'beforeCreateController'=>null,
+        'beforeAction'=>null
+        ],
         'user' => [
             'class' => 'dektrium\user\Module',
-            'enableUnconfirmedLogin' => true,
-            'confirmWithin' => 21600,
-            'cost' => 12,
-            'admins' => ['admin']
-        ]
+        ],
     ],
     'components' => [
         'i18n' => [
             'translations' => [
                 'app*' => [
                     'class' => 'yii\i18n\PhpMessageSource',
-                    'basePath' => '/app/messages/us-UA',
-                    'sourceLanguage' => 'ua-UA',
+                    'basePath' => '@app/app/messages',
                     'fileMap' => [
                         'app' => 'app.php',
                         'app/error' => 'error.php',
@@ -45,10 +53,6 @@ $config = [
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
-        'user' => [
-            'identityClass' => 'app\models\User',
-            'enableAutoLogin' => true,
-        ],
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
@@ -69,14 +73,9 @@ $config = [
             ],
         ],
         'db' => require(__DIR__ . '/db.php'),
-        /*
-        'urlManager' => [
-            'enablePrettyUrl' => true,
-            'showScriptName' => false,
-            'rules' => [
-            ],
+        'authManager' => [
+            'class' => 'yii\rbac\DbManager',
         ],
-        */
     ],
     'params' => $params,
 ];

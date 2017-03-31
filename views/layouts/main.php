@@ -10,10 +10,11 @@ use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
 
 AppAsset::register($this);
+$this->title = Yii::t('app', 'header');
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
-<html lang="<?= Yii::$app->language ?>">
+<html lang="ua-UA">
 <head>
     <meta charset="<?= Yii::$app->charset ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -27,22 +28,31 @@ AppAsset::register($this);
 <div class="wrap">
     <?php
     NavBar::begin([
-        'brandLabel' => \Yii::t('app', 'Family medicine'),
+        'brandLabel' => Yii::t('app', 'header'),
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
             'class' => 'navbar navbar-fixed-top navbar-default',
         ],
     ]);
-    $navItems=[
-        ['label' => 'Home', 'url' => ['/site/index']],
-    ];
+    $navItems = [];
     if (Yii::$app->user->isGuest) {
-        array_push($navItems,['label' => 'Sign In', 'url' => ['/user/login']]);
+        $navItems[] = [
+            ['label' => Yii::t('app', 'home'), 'url' => ['/site/index']],
+        ];
+        $navItems[] = [
+            'label' => Yii::t('app', 'login'),
+            'url' => ['/user/security/login']
+        ];
     } else {
-        array_push($navItems,['label' => 'Logout (' . Yii::$app->user->identity->username . ')',
-                'url' => ['/site/logout'],
-                'linkOptions' => ['data-method' => 'post']]
-        );
+        $navItems[] = [
+            'label' => Yii::t('user', 'Profile'),
+            'url' => ['/user/profile/show', 'id' => Yii::$app->user->getIdentity()->getId()]
+        ];
+        $navItems[] = [
+            'label' => Yii::t('app', 'logout'),
+            'url' => ['/site/logout'],
+            'linkOptions' => ['data-method' => 'post']
+        ];
     }
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
@@ -61,9 +71,7 @@ AppAsset::register($this);
 
 <footer class="footer">
     <div class="container">
-        <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
-
-        <p class="pull-right"><?= Yii::powered() ?></p>
+        <p class="pull-left">&copy; eleonoria <?= date('Y') ?></p>
     </div>
 </footer>
 
