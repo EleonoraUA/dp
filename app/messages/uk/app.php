@@ -10,4 +10,7 @@ return [
     'email' => 'Електронна пошта',
     'Forgot password' => 'Забули пароль?',
 
+    'doc.menu.visits' => 'Візити',
+
+    'manager.menu.inc_info' => 'Вхідна інформація'
 ];
