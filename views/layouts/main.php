@@ -65,18 +65,19 @@ $this->title = Yii::t('app', 'header');
     NavBar::end();
     ?>
 
-    <?php if (Yii::$app->user->can('doctor')): ?>
-    <div class="col-md-2">
-        <?= $this->render('partials/doc_sidebar.php'); ?>
-    </div>
-    <div class="col-md-10">
-        <?php else: ?>
+    <?php if (Yii::$app->user->can('doctor') || Yii::$app->user->can('manager')): ?>
+        <div class="col-md-2">
+            <?= $this->render('partials/doc_sidebar.php'); ?>
+        </div>
+        <div class="col-md-10">
+    <?php else: ?>
         <div class="col-lg-12">
-            <?php endif; ?>
-            <?= Breadcrumbs::widget([
-                'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-            ]) ?>
-            <?= $content ?>
+    <?php endif; ?>
+
+    <?= Breadcrumbs::widget([
+        'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+    ]) ?>
+    <?= $content ?>
         </div>
     </div>
     <footer class="footer">
