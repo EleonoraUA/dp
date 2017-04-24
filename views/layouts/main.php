@@ -35,22 +35,27 @@ $this->title = Yii::t('app', 'header');
     ]);
     $navItems = [];
     if (Yii::$app->user->isGuest) {
-        $navItems[] = [
-            ['label' => Yii::t('app', 'home'), 'url' => ['/site/index']],
-        ];
-        $navItems[] = [
-            'label' => Yii::t('app', 'login'),
-            'url' => ['/user/security/login']
+        $navItems = [
+            [
+                'label' => Yii::t('app', 'home'),
+                'url' => ['/site/index'],
+            ],
+            [
+                'label' => Yii::t('app', 'login'),
+                'url' => ['/user/security/login']
+            ]
         ];
     } else {
-        $navItems[] = [
-            'label' => Yii::t('user', 'Profile'),
-            'url' => ['/user/profile/show', 'id' => Yii::$app->user->getIdentity()->getId()]
-        ];
-        $navItems[] = [
-            'label' => Yii::t('app', 'logout'),
-            'url' => ['/site/logout'],
-            'linkOptions' => ['data-method' => 'post']
+        $navItems = [
+            [
+                'label' => Yii::t('user', 'Profile'),
+                'url' => ['/user/profile/show', 'id' => Yii::$app->user->getIdentity()->getId()]
+            ],
+            [
+                'label' => Yii::t('app', 'logout'),
+                'url' => ['/site/logout'],
+                'linkOptions' => ['data-method' => 'post']
+            ]
         ];
     }
     echo Nav::widget([
@@ -60,19 +65,20 @@ $this->title = Yii::t('app', 'header');
     NavBar::end();
     ?>
 
-    <?php if (Yii::$app->user->can('doctor')) : ?>
-        <div class="col-md-2">
-            <?= $this->render('partials/doc_sidebar.php'); ?>
-        </div>
-    <?php endif; ?>
-
-    <div class="col-md-10">
-    <?= Breadcrumbs::widget([
-        'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-    ]) ?>
-        <?= $content ?>
+    <?php if (Yii::$app->user->can('doctor')): ?>
+    <div class="col-md-2">
+        <?= $this->render('partials/doc_sidebar.php'); ?>
     </div>
-</div>
+    <div class="col-md-10">
+        <?php else: ?>
+        <div class="col-lg-12">
+            <?php endif; ?>
+            <?= Breadcrumbs::widget([
+                'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+            ]) ?>
+            <?= $content ?>
+        </div>
+    </div>
     <footer class="footer">
         <div class="container">
             <p class="pull-left">&copy; eleonoria <?= date('Y') ?></p>
