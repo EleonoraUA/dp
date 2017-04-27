@@ -42,7 +42,7 @@ $this->title = Yii::t('app', 'header');
             ],
             [
                 'label' => Yii::t('app', 'login'),
-                'url' => ['/user/security/login']
+                'url' => ['/user/security/login'],
             ]
         ];
     } else {
@@ -54,12 +54,15 @@ $this->title = Yii::t('app', 'header');
             [
                 'label' => Yii::t('app', 'logout'),
                 'url' => ['/site/logout'],
-                'linkOptions' => ['data-method' => 'post']
+                'linkOptions' => ['data-method' => 'post'],
             ]
         ];
     }
     echo Nav::widget([
-        'options' => ['class' => 'navbar-nav navbar-right'],
+        'encodeLabels' => false,
+        'options' => [
+            'class' => 'navbar-nav navbar-right',
+        ],
         'items' => $navItems,
     ]);
     NavBar::end();
@@ -74,9 +77,11 @@ $this->title = Yii::t('app', 'header');
         <div class="col-lg-12">
     <?php endif; ?>
 
+            <div class="col-md-11">
     <?= Breadcrumbs::widget([
         'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
     ]) ?>
+            </div>
     <?= $content ?>
         </div>
     </div>

@@ -121,4 +121,13 @@ class DistrictController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
+    public function beforeAction($action)
+    {
+        if (Yii::$app->user->isGuest) {
+            throw new NotFoundHttpException();
+        }
+
+        return true;
+    }
 }

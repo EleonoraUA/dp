@@ -35,12 +35,13 @@ class Profile extends \dektrium\user\models\Profile
     public function rules()
     {
         return [
-            [['user_id'], 'required'],
+            [['user_id', 'last_name', 'first_name'], 'required'],
             [['user_id'], 'integer'],
             [['name', 'public_email', 'gravatar_email', 'location', 'website'], 'string', 'max' => 255],
             [['gravatar_id'], 'string', 'max' => 32],
             [['timezone'], 'string', 'max' => 40],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
+            [['last_name', 'first_name', 'patronymic'], 'string', 'max' => 40],
         ];
     }
 
@@ -68,5 +69,10 @@ class Profile extends \dektrium\user\models\Profile
     public function getUser()
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
+    }
+
+    public function getPosition()
+    {
+//        return $this->hasOne();
     }
 }

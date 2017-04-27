@@ -29,6 +29,7 @@ class District extends \yii\db\ActiveRecord
         return [
             [['street'], 'string', 'max' => 50],
             [['building'], 'string', 'max' => 5],
+            [['clinic_id'], 'safe'],
         ];
     }
 
@@ -39,15 +40,14 @@ class District extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'street' => Yii::t('app', 'Street'),
-            'building' => Yii::t('app', 'Building'),
+            'street' => Yii::t('app', 'address.street'),
+            'building' => Yii::t('app', 'address.building'),
+            'clinic_id' => Yii::t('app', 'manager.clinic')
         ];
     }
 
-    public function relations()
+    public function getClinicId()
     {
-        return [
-            'district_to_clinic' => [self::BELONGS_TO, 'clinic', 'id']
-        ];
+        return $this->hasOne(Clinic::className(), ['id' => 'clinic_id']);
     }
 }

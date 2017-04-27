@@ -5,19 +5,19 @@ namespace app\models\tables;
 use Yii;
 
 /**
- * This is the model class for table "clinic".
+ * This is the model class for table "position".
  *
  * @property integer $id
  * @property string $name
  */
-class Clinic extends \yii\db\ActiveRecord
+class Position extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'clinic';
+        return 'position';
     }
 
     /**
@@ -27,6 +27,7 @@ class Clinic extends \yii\db\ActiveRecord
     {
         return [
             [['name'], 'string', 'max' => 30],
+            [['name'], 'unique', 'targetAttribute' => ['name'], 'message' => Yii::t('app', 'position.name.unique')],
         ];
     }
 
@@ -36,13 +37,8 @@ class Clinic extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
+            'id' => Yii::t('app', 'ID'),
             'name' => Yii::t('app', 'name'),
         ];
-    }
-
-    public function getDistrics()
-    {
-        return $this->hasMany(District::className(), ['clinic_id' => 'id']);
     }
 }

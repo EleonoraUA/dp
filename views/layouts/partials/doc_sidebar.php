@@ -24,16 +24,28 @@ if (Yii::$app->user->can('manager')) {
         ],
         [
             'label' => Yii::t('app', 'manager.menu.inc_info.pat_groups'),
-            'url' => '#'
+            'url' => ['patient-group/index'],
+            'icon' => 'ok',
+        ],
+        [
+            'label' => Yii::t('app', 'manager.menu.inc_info.pat_sub_groups'),
+            'url' => ['patient-sub-group/index'],
+            'icon' => 'ok',
         ],
         [
             'label' => Yii::t('app', 'manager.menu.inc_info.districts'),
-            'url' => ['district/index']
+            'url' => ['district/index'],
+            'icon' => 'ok',
         ],
         [
             'label' => Yii::t('app', 'manager.menu.inc_info.clinics'),
             'url' => ['clinic/index'],
-            'icon' => 'globe'
+            'icon' => 'ok',
+        ],
+        [
+            'label' => Yii::t('app', 'manager.positions'),
+            'url' => ['position/index'],
+            'icon' => 'ok',
         ],
     ]];
 }

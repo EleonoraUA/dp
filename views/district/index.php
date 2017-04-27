@@ -7,16 +7,16 @@ use yii\widgets\Pjax;
 /* @var $searchModel app\models\tables\DistrictSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Districts');
+$this->title = Yii::t('app', 'manager.districts');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="district-index">
+<div class="district-index col-md-8 col-md-offset-1">
 
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a(Yii::t('app', 'Create District'), ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a(Yii::t('app', 'crud.district.create'), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 <?php Pjax::begin(); ?>    <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -27,6 +27,14 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'street',
             'building',
+            [
+                'attribute' => 'clinic_id',
+                'value' => function ($item) {
+                    if (isset($item->clinic_id)) {
+                        return \app\models\tables\Clinic::findOne($item->clinic_id)->name;
+                    }
+                }
+            ],
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
