@@ -1,6 +1,6 @@
 <?php
 
-namespace app\models;
+namespace app\models\tables;
 
 use Yii;
 
@@ -32,12 +32,16 @@ class Patient extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['first_name', 'last_name', 'birthday'], 'required'],
-            [['birthday'], 'safe'],
+            [['first_name', 'last_name', 'birthday', 'address'], 'required'],
+            [['birthday'], 'date', 'format' => 'yyyy-MM-dd'],
             [['study'], 'integer'],
             [['first_name', 'last_name', 'patronymic'], 'string', 'max' => 40],
-            [['phone'], 'string', 'max' => 30],
-            [['email'], 'string', 'max' => 255],
+            [['phone'], 'match', 'pattern' => '/^((\+380|0)([0-9]{9}))?$/'],
+            [['email'], 'email'],
+            [['email'], 'unique', 'targetAttribute' => 'email'],
+            [['subgroup'], 'integer'],
+            [['study_place_id'], 'integer'],
+            ['address', 'string', 'max' => 100]
         ];
     }
 
@@ -56,5 +60,15 @@ class Patient extends \yii\db\ActiveRecord
             'email' => Yii::t('app', 'Email'),
             'study' => Yii::t('app', 'Study'),
         ];
+    }
+
+    public function getPatientSubGroups()
+    {
+        return $this->hasMany(PatientSubGroup::className(), ['id' => 'subgroup'])->viaTable('patient_to_subgroup', ['patient_id' => 'id']);
+    }
+
+    public function getStudyPlace()
+    {
+        return $this->hasOne(StudyPlace::className(), ['id' => 'study']);
     }
 }

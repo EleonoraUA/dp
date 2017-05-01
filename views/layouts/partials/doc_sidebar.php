@@ -16,7 +16,7 @@ if (Yii::$app->user->can('manager')) {
     $items[] = ['url' => '#','label' => Yii::t('app', 'manager.menu.inc_info'), 'items' => [
         [
         'label' => Yii::t('app', 'manager.menu.inc_info.patients'),
-        'url' => '#'
+        'url' => ['patient/index']
         ],
         [
             'label' => Yii::t('app', 'manager.menu.inc_info.calls'),
