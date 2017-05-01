@@ -32,6 +32,7 @@ return [
     'manager.group' => 'Група',
     'manager.sub_groups' => 'Підгрупи',
     'manager.positions' => 'Посади',
+    'manager.study_place' => 'Місце навчання',
 
     /*
      * CRUD

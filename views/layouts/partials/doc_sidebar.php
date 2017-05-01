@@ -47,6 +47,11 @@ if (Yii::$app->user->can('manager')) {
             'url' => ['position/index'],
             'icon' => 'ok',
         ],
+        [
+            'label' => Yii::t('app', 'manager.study_place'),
+            'url' => ['study-place/index'],
+            'icon' => 'ok',
+        ],
     ]];
 }
 
