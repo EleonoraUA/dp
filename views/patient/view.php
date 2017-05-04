@@ -18,6 +18,7 @@ use yii\widgets\DetailView;
             'phone',
             'email:email',
             'address',
+            'study'
         ],
     ]) ?>
 

@@ -33,6 +33,13 @@ return [
     'manager.sub_groups' => 'Підгрупи',
     'manager.positions' => 'Посади',
     'manager.study_place' => 'Місце навчання',
+    'manager.doc.profiles' => 'Профілі лікарів',
+    'manager.profile.user_id' => 'Користувач',
+    'manager.profile.public_email' => 'Публічна пошта',
+    'manager.profile.first_name' => 'Ім\'я',
+    'manager.profile.last_name' => 'Прізвище',
+    'manager.profile.patronymic' => 'По-батькові',
+    'manager.profile.position' => 'Посада',
 
     /*
      * CRUD
@@ -48,8 +55,23 @@ return [
     'address.street' => 'Вулиця',
     'address.building' => 'Будинок',
 
+    'visit.type' => 'Тип',
+    'visit.datetime' => 'Дата та час',
+    'visit.patient_id' => 'Пацієнт',
+    'visit.doc_id' => 'Лікар',
+
+    'patient.first_name' => 'Ім\'я',
+    'patient.last_name' => 'Прізвище',
+    'patient.patronymic' => 'По-батькові',
+    'patient.birthday' => 'День народження',
+    'patient.email' => 'Електронна пошта',
+    'patient.phone' => 'Телефон',
+    'patient.study' => 'Місце навчання',
+    'patient.address' => 'Адреса',
+
     /*
      * ERRORS
      */
-    'position.name.unique' => 'Назва посади має бути унікальною'
+    'position.name.unique' => 'Назва посади має бути унікальною',
+    'visit.unique' => 'Такий візит вже зареєстрований',
 ];

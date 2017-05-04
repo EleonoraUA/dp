@@ -34,7 +34,7 @@ class Patient extends \yii\db\ActiveRecord
         return [
             [['first_name', 'last_name', 'birthday', 'address'], 'required'],
             [['birthday'], 'date', 'format' => 'yyyy-MM-dd'],
-            [['study'], 'integer'],
+            [['study'], 'string', 'max' => 100],
             [['first_name', 'last_name', 'patronymic'], 'string', 'max' => 40],
             [['phone'], 'match', 'pattern' => '/^((\+380|0)([0-9]{9}))?$/'],
             [['email'], 'email'],
@@ -52,13 +52,14 @@ class Patient extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'first_name' => Yii::t('app', 'First Name'),
-            'last_name' => Yii::t('app', 'Last Name'),
-            'patronymic' => Yii::t('app', 'Patronymic'),
-            'birthday' => Yii::t('app', 'Birthday'),
-            'phone' => Yii::t('app', 'Phone'),
-            'email' => Yii::t('app', 'Email'),
-            'study' => Yii::t('app', 'Study'),
+            'first_name' => Yii::t('app', 'patient.first_name'),
+            'last_name' => Yii::t('app', 'patient.last_name'),
+            'patronymic' => Yii::t('app', 'patient.patronymic'),
+            'birthday' => Yii::t('app', 'patient.birthday'),
+            'phone' => Yii::t('app', 'patient.phone'),
+            'email' => Yii::t('app', 'patient.email'),
+            'study' => Yii::t('app', 'patient.study'),
+            'address' => Yii::t('app', 'patient.address'),
         ];
     }
 
@@ -67,8 +68,8 @@ class Patient extends \yii\db\ActiveRecord
         return $this->hasMany(PatientSubGroup::className(), ['id' => 'subgroup'])->viaTable('patient_to_subgroup', ['patient_id' => 'id']);
     }
 
-    public function getStudyPlace()
+    public function getFullName()
     {
-        return $this->hasOne(StudyPlace::className(), ['id' => 'study']);
+        return $this->last_name . ' ' . $this->first_name . ' ' . $this->patronymic;
     }
 }

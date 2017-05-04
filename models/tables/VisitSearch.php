@@ -57,11 +57,12 @@ class VisitSearch extends Visit
 
         $query->andFilterWhere([
             'id' => $this->id,
-            'datetime' => $this->datetime,
             'patient_id' => $this->patient_id,
             'doc_id' => $this->doc_id,
             'type' => $this->type,
         ]);
+
+        $query->andFilterWhere(['like', 'datetime', $this->datetime]);
 
         return $dataProvider;
     }

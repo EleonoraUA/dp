@@ -30,7 +30,7 @@ $studyPlaces = ArrayHelper::map(\app\models\tables\StudyPlace::find()->all(), 'i
 
     <?= $form->field($model, 'birthday')->widget(DatePicker::classname(), [
         'language' => 'uk',
-        'dateFormat' => 'yyyy-MM-dd',
+        'dateFormat' => 'dd-MM-yyyy',
     ]) ?>
 
     <?= $form->field($model, 'phone')->textInput(['maxlength' => true]) ?>
@@ -39,7 +39,7 @@ $studyPlaces = ArrayHelper::map(\app\models\tables\StudyPlace::find()->all(), 'i
 
     <?= $form->field($model, 'address')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'study')->dropDownList($studyPlaces) ?>
+    <?= $form->field($model, 'study')->textInput(['maxlength' => true]) ?>
 
 
     <?php if (!Yii::$app->request->isAjax) { ?>

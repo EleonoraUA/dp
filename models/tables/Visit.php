@@ -18,6 +18,11 @@ use Yii;
  */
 class Visit extends \yii\db\ActiveRecord
 {
+    const VISIT_HOME_TYPE_NUMBER = 1;
+    private const VISIT_HOME_TYPE_NAME = 'Вдома';
+    const VISIT_CLINIC_TYPE_NUMBER = 2;
+    private const VISIT_CLINIC_TYPE_NAME = 'У лікарні';
+
     /**
      * @inheritdoc
      */
@@ -33,7 +38,10 @@ class Visit extends \yii\db\ActiveRecord
     {
         return [
             [['datetime'], 'safe'],
+            [['datetime'], 'string', 'max' => 30],
             [['patient_id', 'doc_id', 'type'], 'integer'],
+            [['datetime'], 'unique', 'targetAttribute' => ['patient_id', 'datetime', 'doc_id'], 'message' => Yii::t('app', 'visit.unique')],
+            [['patient_id', 'doc_id', 'type', 'datetime'], 'required'],
             [['doc_id'], 'exist', 'skipOnError' => true, 'targetClass' => Profile::className(), 'targetAttribute' => ['doc_id' => 'user_id']],
             [['patient_id'], 'exist', 'skipOnError' => true, 'targetClass' => Patient::className(), 'targetAttribute' => ['patient_id' => 'id']],
         ];
@@ -46,10 +54,10 @@ class Visit extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'datetime' => Yii::t('app', 'Datetime'),
-            'patient_id' => Yii::t('app', 'Patient ID'),
-            'doc_id' => Yii::t('app', 'Doc ID'),
-            'type' => Yii::t('app', 'Type'),
+            'datetime' => Yii::t('app', 'visit.datetime'),
+            'patient_id' => Yii::t('app', 'visit.patient_id'),
+            'doc_id' => Yii::t('app', 'visit.doc_id'),
+            'type' => Yii::t('app', 'visit.type'),
         ];
     }
 
@@ -67,5 +75,18 @@ class Visit extends \yii\db\ActiveRecord
     public function getPatient()
     {
         return $this->hasOne(Patient::className(), ['id' => 'patient_id']);
+    }
+
+    public static function getVisitTypes($type = null)
+    {
+        $types = [
+            self::VISIT_HOME_TYPE_NUMBER => self::VISIT_HOME_TYPE_NAME,
+            self::VISIT_CLINIC_TYPE_NUMBER => self::VISIT_CLINIC_TYPE_NAME
+        ];
+        if (!empty($type) && isset($types[$type])) {
+            return $types[$type];
+        }
+
+        return $types;
     }
 }

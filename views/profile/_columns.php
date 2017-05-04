@@ -1,4 +1,6 @@
 <?php
+use app\models\tables\Position;
+use dektrium\user\models\User;
 use yii\helpers\Url;
 
 return [
@@ -10,10 +12,14 @@ return [
         'class' => 'kartik\grid\SerialColumn',
         'width' => '30px',
     ],
-    // [
-    // 'class'=>'\kartik\grid\DataColumn',
-    // 'attribute'=>'id',
-    // ],
+    [
+        'class' => '\kartik\grid\DataColumn',
+        'attribute' => 'user_id',
+        'value' => function ($item) {
+            $user = User::findOne($item->user_id);
+            return $user->username . ' ('.$user->email.')';
+        }
+    ],
     [
         'class' => '\kartik\grid\DataColumn',
         'attribute' => 'first_name',
@@ -28,15 +34,15 @@ return [
     ],
     [
         'class' => '\kartik\grid\DataColumn',
-        'attribute' => 'birthday',
+        'attribute' => 'position',
+        'value' => function ($item) {
+            $position = Position::findOne($item->position);
+            return $position->name ?? null;
+        }
     ],
     [
         'class' => '\kartik\grid\DataColumn',
-        'attribute' => 'study',
-    ],
-    [
-        'class' => '\kartik\grid\DataColumn',
-        'attribute' => 'address',
+        'attribute' => 'public_email',
     ],
     [
         'class' => 'kartik\grid\ActionColumn',

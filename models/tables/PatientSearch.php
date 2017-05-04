@@ -18,8 +18,8 @@ class PatientSearch extends Patient
     public function rules()
     {
         return [
-            [['id', 'study'], 'integer'],
-            [['first_name', 'last_name', 'patronymic', 'birthday', 'phone', 'email'], 'safe'],
+            [['id'], 'integer'],
+            [['first_name', 'last_name', 'patronymic', 'birthday', 'phone', 'email', 'study'], 'safe'],
         ];
     }
 
@@ -58,13 +58,13 @@ class PatientSearch extends Patient
         $query->andFilterWhere([
             'id' => $this->id,
             'birthday' => $this->birthday,
-            'study' => $this->study,
         ]);
 
         $query->andFilterWhere(['like', 'first_name', $this->first_name])
             ->andFilterWhere(['like', 'last_name', $this->last_name])
             ->andFilterWhere(['like', 'patronymic', $this->patronymic])
             ->andFilterWhere(['like', 'phone', $this->phone])
+            ->andFilterWhere(['like', 'study', $this->study])
             ->andFilterWhere(['like', 'email', $this->email]);
 
         return $dataProvider;

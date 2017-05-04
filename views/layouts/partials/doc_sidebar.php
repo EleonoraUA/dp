@@ -10,17 +10,19 @@ $items = [
 ];
 
 if (Yii::$app->user->can('doctor')) {
-    $items[] = ['url' => '#','label' => Yii::t('app', 'doc.menu.visits')];
+    $items[] = ['url' => '#', 'label' => Yii::t('app', 'doc.menu.visits')];
 }
 if (Yii::$app->user->can('manager')) {
-    $items[] = ['url' => '#','label' => Yii::t('app', 'manager.menu.inc_info'), 'items' => [
+    $items[] = ['url' => '#', 'label' => Yii::t('app', 'manager.menu.inc_info'), 'items' => [
         [
-        'label' => Yii::t('app', 'manager.menu.inc_info.patients'),
-        'url' => ['patient/index']
+            'label' => Yii::t('app', 'manager.menu.inc_info.patients'),
+            'url' => ['patient/index'],
+            'icon' => 'ok',
         ],
         [
             'label' => Yii::t('app', 'manager.menu.inc_info.calls'),
-            'url' => '#',
+            'url' => ['visit/index'],
+            'icon' => 'ok',
         ],
         [
             'label' => Yii::t('app', 'manager.menu.inc_info.pat_groups'),
@@ -48,8 +50,8 @@ if (Yii::$app->user->can('manager')) {
             'icon' => 'ok',
         ],
         [
-            'label' => Yii::t('app', 'manager.study_place'),
-            'url' => ['study-place/index'],
+            'label' => Yii::t('app', 'manager.doc.profiles'),
+            'url' => ['profile/index'],
             'icon' => 'ok',
         ],
     ]];

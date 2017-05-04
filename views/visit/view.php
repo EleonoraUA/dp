@@ -12,9 +12,18 @@ use yii\widgets\DetailView;
         'attributes' => [
             'id',
             'datetime',
-            'patient_id',
-            'doc_id',
-            'type',
+            [
+                'attribute' => 'patient_id',
+                'value' => $model->patient->getFullName()
+            ],
+            [
+                'attribute' => 'doc_id',
+                'value' => $model->doc->getFullName()
+            ],
+            [
+                'attribute' => 'type',
+                'value' => $model->getVisitTypes($model->type)
+            ],
         ],
     ]) ?>
 

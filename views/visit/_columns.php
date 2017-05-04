@@ -1,4 +1,7 @@
 <?php
+use app\models\tables\Patient;
+use app\models\tables\Profile;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 
 return [
@@ -10,10 +13,6 @@ return [
         'class' => 'kartik\grid\SerialColumn',
         'width' => '30px',
     ],
-        // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'id',
-    // ],
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'datetime',
@@ -21,14 +20,24 @@ return [
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'patient_id',
+        'value' => function ($item) {
+            return $item->patient->getFullName();
+        }
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'doc_id',
+        'value' => function ($item) {
+            return $item->doc->getFullName();
+
+        }
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'type',
+        'value' => function ($item) {
+            return $item->getVisitTypes($item->type);
+        }
     ],
     [
         'class' => 'kartik\grid\ActionColumn',
@@ -43,8 +52,8 @@ return [
                           'data-confirm'=>false, 'data-method'=>false,// for overide yii data api
                           'data-request-method'=>'post',
                           'data-toggle'=>'tooltip',
-                          'data-confirm-title'=>'Are you sure?',
-                          'data-confirm-message'=>'Are you sure want to delete this item'], 
+                          'data-confirm-title'=>Yii::t('yii', 'Are you sure'),
+                          'data-confirm-message'=>Yii::t('yii', 'Are you sure want to delete this item')],
     ],
 
 ];   
