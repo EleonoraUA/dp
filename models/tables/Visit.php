@@ -89,4 +89,18 @@ class Visit extends \yii\db\ActiveRecord
 
         return $types;
     }
+
+    public static function getVisitTypeName($type = null)
+    {
+        $types = [
+            self::VISIT_HOME_TYPE_NAME => self::VISIT_HOME_TYPE_NUMBER,
+            self::VISIT_CLINIC_TYPE_NAME => self::VISIT_CLINIC_TYPE_NUMBER,
+        ];
+
+        if (!empty($type) && isset($types[$type])) {
+            return $types[$type];
+        }
+
+        return $types;
+    }
 }

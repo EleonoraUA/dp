@@ -19,7 +19,7 @@ class DistrictSearch extends District
     {
         return [
             [['id'], 'integer'],
-            [['street', 'building'], 'safe'],
+            [['street', 'building', 'clinic_id'], 'safe'],
         ];
     }
 
@@ -43,6 +43,8 @@ class DistrictSearch extends District
     {
         $query = District::find();
 
+        $query->joinWith('clinicId');
+
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
@@ -63,7 +65,8 @@ class DistrictSearch extends District
         ]);
 
         $query->andFilterWhere(['like', 'street', $this->street])
-            ->andFilterWhere(['like', 'building', $this->building]);
+            ->andFilterWhere(['like', 'building', $this->building])
+        ->andFilterWhere(['like', 'clinic.name', $this->clinic_id]);
 
         return $dataProvider;
     }

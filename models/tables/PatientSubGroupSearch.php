@@ -18,8 +18,8 @@ class PatientSubGroupSearch extends PatientSubGroup
     public function rules()
     {
         return [
-            [['id', 'group_id'], 'integer'],
-            [['name'], 'safe'],
+            [['id'], 'integer'],
+            [['name', 'group_id'], 'safe'],
         ];
     }
 
@@ -43,6 +43,7 @@ class PatientSubGroupSearch extends PatientSubGroup
     {
         $query = PatientSubGroup::find();
 
+        $query->joinWith(['group']);
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
@@ -57,10 +58,10 @@ class PatientSubGroupSearch extends PatientSubGroup
 
         $query->andFilterWhere([
             'id' => $this->id,
-            'group_id' => $this->group_id,
         ]);
 
-        $query->andFilterWhere(['like', 'name', $this->name]);
+        $query->andFilterWhere(['like', 'name', $this->name])
+        ->andFilterWhere(['like', 'patient_group.name', $this->group_id]);
 
         return $dataProvider;
     }

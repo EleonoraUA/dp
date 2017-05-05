@@ -1,6 +1,7 @@
 <?php
 use app\models\tables\Patient;
 use app\models\tables\Profile;
+use app\models\tables\Visit;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 
@@ -36,8 +37,9 @@ return [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'type',
         'value' => function ($item) {
-            return $item->getVisitTypes($item->type);
-        }
+            return Visit::getVisitTypes($item->type);
+        },
+        'filter' => false
     ],
     [
         'class' => 'kartik\grid\ActionColumn',

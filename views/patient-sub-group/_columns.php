@@ -26,7 +26,6 @@ return [
                 return PatientGroup::findOne($item->group_id)->name;
             }
         },
-        'filter' => false
     ],
     [
         'class' => 'kartik\grid\ActionColumn',

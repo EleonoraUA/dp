@@ -18,8 +18,7 @@ class ProfileSearch extends Profile
     public function rules()
     {
         return [
-            [['user_id', 'position'], 'integer'],
-            [['name', 'public_email', 'gravatar_email', 'gravatar_id', 'location', 'website', 'bio', 'timezone', 'first_name', 'last_name', 'patronymic'], 'safe'],
+            [['name', 'public_email', 'user_id', 'first_name', 'last_name', 'patronymic', 'position'], 'safe'],
         ];
     }
 
@@ -43,6 +42,7 @@ class ProfileSearch extends Profile
     {
         $query = Profile::find();
 
+        $query->joinWith(['position', 'user']);
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
@@ -55,23 +55,15 @@ class ProfileSearch extends Profile
             return $dataProvider;
         }
 
-        $query->andFilterWhere([
-            'user_id' => $this->user_id,
-            'position' => $this->position,
-        ]);
-
         $query->andFilterWhere(['like', 'name', $this->name])
             ->andFilterWhere(['like', 'public_email', $this->public_email])
-            ->andFilterWhere(['like', 'gravatar_email', $this->gravatar_email])
-            ->andFilterWhere(['like', 'gravatar_id', $this->gravatar_id])
-            ->andFilterWhere(['like', 'location', $this->location])
-            ->andFilterWhere(['like', 'website', $this->website])
-            ->andFilterWhere(['like', 'bio', $this->bio])
-            ->andFilterWhere(['like', 'timezone', $this->timezone])
             ->andFilterWhere(['like', 'first_name', $this->first_name])
             ->andFilterWhere(['like', 'last_name', $this->last_name])
+            ->andFilterWhere(['like', 'position.name', $this->position])
             ->andFilterWhere(['like', 'patronymic', $this->patronymic]);
 
+        $query->orFilterWhere(['like', 'user.username', $this->user_id])
+            ->orFilterWhere(['like', 'user.email', $this->user_id]);
         return $dataProvider;
     }
 }

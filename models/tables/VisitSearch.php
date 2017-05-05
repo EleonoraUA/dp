@@ -18,8 +18,8 @@ class VisitSearch extends Visit
     public function rules()
     {
         return [
-            [['id', 'patient_id', 'doc_id', 'type'], 'integer'],
-            [['datetime'], 'safe'],
+            [['id'], 'integer'],
+            [['datetime', 'patient_id', 'doc_id', 'type'], 'safe'],
         ];
     }
 
@@ -43,6 +43,8 @@ class VisitSearch extends Visit
     {
         $query = Visit::find();
 
+        $query->joinWith(['patient', 'doc']);
+
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
@@ -57,12 +59,14 @@ class VisitSearch extends Visit
 
         $query->andFilterWhere([
             'id' => $this->id,
-            'patient_id' => $this->patient_id,
-            'doc_id' => $this->doc_id,
-            'type' => $this->type,
         ]);
 
         $query->andFilterWhere(['like', 'datetime', $this->datetime]);
+        $query->orFilterWhere(['like', 'patient.first_name', $this->patient_id])
+        ->orFilterWhere(['like', 'patient.last_name', $this->patient_id]);
+
+        $query->orFilterWhere(['like', 'profile.first_name', $this->doc_id])
+            ->orFilterWhere(['like', 'profile.last_name', $this->doc_id]);
 
         return $dataProvider;
     }
