@@ -4,6 +4,7 @@ namespace app\models\tables;
 
 use Yii;
 use \dektrium\user\models\User;
+use yii2tech\ar\linkmany\LinkManyBehavior;
 
 /**
  * This is the model class for table "profile".
@@ -39,6 +40,18 @@ class Profile extends \dektrium\user\models\Profile
             [['name', 'public_email'], 'string', 'max' => 255],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
             [['last_name', 'first_name', 'patronymic'], 'string', 'max' => 40],
+            [['patient_ids'], 'safe'],
+        ];
+    }
+
+    public function behaviors()
+    {
+        return [
+            'linkGroupBehavior' => [
+                'class' => LinkManyBehavior::className(),
+                'relation' => 'patients', // relation, which will be handled
+                'relationReferenceAttribute' => 'patient_ids', // virtual attribute, which is used for related records specification
+            ],
         ];
     }
 
@@ -73,5 +86,10 @@ class Profile extends \dektrium\user\models\Profile
     public function getFullName()
     {
         return $this->last_name . ' ' . $this->first_name . ' ' . $this->patronymic;
+    }
+
+    public function getPatients()
+    {
+        return $this->hasMany(Patient::className(), ['id' => 'user_id'])->viaTable('doc_to_patient', ['patient_id' => 'user_id']);
     }
 }

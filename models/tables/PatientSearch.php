@@ -12,6 +12,8 @@ use app\models\tables\Patient;
  */
 class PatientSearch extends Patient
 {
+    public $forDoctor;
+
     /**
      * @inheritdoc
      */
@@ -19,7 +21,7 @@ class PatientSearch extends Patient
     {
         return [
             [['id'], 'integer'],
-            [['first_name', 'last_name', 'patronymic', 'birthday', 'phone', 'email', 'study'], 'safe'],
+            [['first_name', 'last_name', 'patronymic', 'birthday', 'phone', 'email', 'study', 'subgroup_ids'], 'safe'],
         ];
     }
 
@@ -39,9 +41,13 @@ class PatientSearch extends Patient
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
+    public function search($params, $forDoc = null)
     {
         $query = Patient::find();
+        if ($forDoc) {
+            $query->joinWith('doctors');
+            $query->andFilterWhere(['doc_to_patient.user_id' => $forDoc]);
+        }
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -60,12 +66,12 @@ class PatientSearch extends Patient
             'birthday' => $this->birthday,
         ]);
 
-        $query->andFilterWhere(['like', 'first_name', $this->first_name])
-            ->andFilterWhere(['like', 'last_name', $this->last_name])
-            ->andFilterWhere(['like', 'patronymic', $this->patronymic])
-            ->andFilterWhere(['like', 'phone', $this->phone])
-            ->andFilterWhere(['like', 'study', $this->study])
-            ->andFilterWhere(['like', 'email', $this->email]);
+        $query->andFilterWhere(['like', 'patient.first_name', $this->first_name])
+            ->andFilterWhere(['like', 'patient.last_name', $this->last_name])
+            ->andFilterWhere(['like', 'patient.patronymic', $this->patronymic])
+            ->andFilterWhere(['like', 'patient.phone', $this->phone])
+            ->andFilterWhere(['like', 'patient.study', $this->study])
+            ->andFilterWhere(['like', 'patient.email', $this->email]);
 
         return $dataProvider;
     }

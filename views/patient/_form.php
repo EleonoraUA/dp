@@ -1,5 +1,7 @@
 <?php
 use app\models\tables\PatientSubGroup;
+use app\models\tables\Profile;
+use kartik\select2\Select2;
 use yii\helpers\Html;
 use yii\jui\DatePicker;
 use yii\widgets\ActiveForm;
@@ -10,6 +12,7 @@ use yii\helpers\ArrayHelper;
 /* @var $form yii\widgets\ActiveForm */
 $subgroups = ArrayHelper::map(PatientSubGroup::find()->all(), 'id', 'name');
 $studyPlaces = ArrayHelper::map(\app\models\tables\StudyPlace::find()->all(), 'id', 'name');
+$doctors = ArrayHelper::map(Profile::find()->all(), 'user_id', 'fullName');
 ?>
 
 <div class="patient-form">
@@ -30,7 +33,7 @@ $studyPlaces = ArrayHelper::map(\app\models\tables\StudyPlace::find()->all(), 'i
 
     <?= $form->field($model, 'birthday')->widget(DatePicker::classname(), [
         'language' => 'uk',
-        'dateFormat' => 'dd-MM-yyyy',
+        'dateFormat' => 'yyyy-MM-dd',
     ]) ?>
 
     <?= $form->field($model, 'phone')->textInput(['maxlength' => true]) ?>
@@ -41,10 +44,28 @@ $studyPlaces = ArrayHelper::map(\app\models\tables\StudyPlace::find()->all(), 'i
 
     <?= $form->field($model, 'study')->textInput(['maxlength' => true]) ?>
 
+    <?= $form->field($model, 'subgroup_ids')->widget(Select2::classname(), [
+        'data' => $subgroups,
+        'language' => Yii::$app->language,
+        'theme' => Select2::THEME_BOOTSTRAP,
+        'options' => ['multiple' => true, 'placeholder' => 'Підгрупи'],
+        'pluginOptions' => [
+            'allowClear' => true
+        ],
+    ]); ?>
 
+    <?= $form->field($model, 'doctor_ids')->widget(Select2::classname(), [
+        'data' => $doctors,
+        'language' => Yii::$app->language,
+        'theme' => Select2::THEME_BOOTSTRAP,
+        'options' => ['multiple' => true, 'placeholder' => 'Лікарі'],
+        'pluginOptions' => [
+            'allowClear' => true
+        ],
+    ]); ?>
     <?php if (!Yii::$app->request->isAjax) { ?>
         <div class="form-group">
-            <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+            <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'create') : Yii::t('app', 'update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
         </div>
     <?php } ?>
 

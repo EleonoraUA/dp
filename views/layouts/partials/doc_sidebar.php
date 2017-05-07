@@ -10,7 +10,11 @@ $items = [
 ];
 
 if (Yii::$app->user->can('doctor')) {
-    $items[] = ['url' => '#', 'label' => Yii::t('app', 'doc.menu.visits')];
+    $items[] = [
+        'label' => Yii::t('app', 'manager.menu.inc_info.patients'),
+        'url' => ['patient/index'],
+        'icon' => 'ok',
+        ];
 }
 if (Yii::$app->user->can('manager')) {
     $items[] = ['url' => '#', 'label' => Yii::t('app', 'manager.menu.inc_info'), 'items' => [

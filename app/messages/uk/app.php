@@ -40,6 +40,7 @@ return [
     'manager.profile.last_name' => 'Прізвище',
     'manager.profile.patronymic' => 'По-батькові',
     'manager.profile.position' => 'Посада',
+    'manager.patient.doctors' => 'Закріплені лікарі',
 
     /*
      * CRUD

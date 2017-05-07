@@ -59,7 +59,7 @@ class PatientSubGroup extends \yii\db\ActiveRecord
 
     public function getPatients()
     {
-        return $this->hasMany(Patient::className(), ['subgroup' => 'id'])->viaTable('patient_to_subgroup', ['id' => 'patient_id']);
+        return $this->hasMany(Patient::className(), ['id' => 'subgroup_id']);
     }
 
 }

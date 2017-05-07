@@ -29,6 +29,20 @@ class PatientController extends Controller
                     'bulk-delete' => ['post'],
                 ],
             ],
+            'access' => [
+                'class' => \yii\filters\AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['manager'],
+                    ],
+                    [
+                        'allow' => true,
+//                        'actions' => ['index'],
+                        'roles' => ['doctor'],
+                    ],
+                ],
+            ],
         ];
     }
 
@@ -39,7 +53,11 @@ class PatientController extends Controller
     public function actionIndex()
     {    
         $searchModel = new PatientSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        if (Yii::$app->user->can('doc')) {
+            $dataProvider = $searchModel->search(Yii::$app->request->queryParams, Yii::$app->user->getId());
+        } else {
+            $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        }
 
         return $this->render('index', [
             'searchModel' => $searchModel,

@@ -1,4 +1,5 @@
 <?php
+use app\models\tables\Patient;
 use app\models\tables\Position;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
@@ -27,12 +28,12 @@ $users = ArrayHelper::map(\dektrium\user\models\User::find()->all(), 'id', 'user
 
     <?= $form->field($model, 'public_email')->textInput(['maxlength' => true]) ?>
 
-
+    <?= $form->field($model, 'patient_ids')->checkboxList(ArrayHelper::map(Patient::find()->all(), 'id', 'first_name')); ?>
 
   
 	<?php if (!Yii::$app->request->isAjax){ ?>
 	  	<div class="form-group">
-	        <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+	        <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'create') : Yii::t('app', 'update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
 	    </div>
 	<?php } ?>
 

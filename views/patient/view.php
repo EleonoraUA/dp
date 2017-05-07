@@ -18,7 +18,15 @@ use yii\widgets\DetailView;
             'phone',
             'email:email',
             'address',
-            'study'
+            'study',
+            [
+                'label' => 'Закріплені лікарі',
+                'value' => $model->getDoctorString()
+            ],
+            [
+                'label' => 'Підгрупи',
+                'value' => $model->getSubgroupString()
+            ],
         ],
     ]) ?>
 

@@ -17,7 +17,7 @@ return [
         'attribute' => 'user_id',
         'value' => function ($item) {
             $user = User::findOne($item->user_id);
-            return $user->username . ' ('.$user->email.')';
+            return $user->username . ' (' . $user->email . ')';
         }
     ],
     [

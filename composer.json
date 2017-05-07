@@ -25,7 +25,10 @@
         "rmrevin/yii2-fontawesome": "2.10.*",
         "yiisoft/yii2-jui": "^2.0",
         "kartik-v/yii2-widget-select2": "@dev",
-        "kartik-v/yii2-widget-datetimepicker": "*"
+        "kartik-v/yii2-widget-datetimepicker": "*",
+        "voskobovich/yii2-linker-behavior": "^4.0",
+        "yii2tech/ar-linkmany": "^1.0",
+        "voskobovich/yii2-many-many-behavior": "^3.0"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

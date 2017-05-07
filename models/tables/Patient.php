@@ -2,7 +2,9 @@
 
 namespace app\models\tables;
 
+use voskobovich\behaviors\ManyToManyBehavior;
 use Yii;
+use yii2tech\ar\linkmany\LinkManyBehavior;
 
 /**
  * This is the model class for table "patient".
@@ -26,6 +28,23 @@ class Patient extends \yii\db\ActiveRecord
         return 'patient';
     }
 
+    public function behaviors()
+    {
+        return [
+            'linkGroupBehavior' => [
+                'class' => LinkManyBehavior::className(),
+                'relation' => 'doctors', // relation, which will be handled
+                'relationReferenceAttribute' => 'doctor_ids', // virtual attribute, which is used for related records specification
+            ],
+            [
+                'class' => ManyToManyBehavior::className(),
+                'relations' => [
+                    'subgroup_ids' => 'subgroups',
+                ],
+            ],
+        ];
+    }
+
     /**
      * @inheritdoc
      */
@@ -39,9 +58,11 @@ class Patient extends \yii\db\ActiveRecord
             [['phone'], 'match', 'pattern' => '/^((\+380|0)([0-9]{9}))?$/'],
             [['email'], 'email'],
             [['email'], 'unique', 'targetAttribute' => 'email'],
-            [['subgroup'], 'integer'],
+            [['subgroup_ids'], 'safe'],
             [['study_place_id'], 'integer'],
-            ['address', 'string', 'max' => 100]
+            ['address', 'string', 'max' => 100],
+            [['doctor_ids'], 'safe'],
+            [['subgroups', 'subgroup_ids'], 'safe'],
         ];
     }
 
@@ -60,16 +81,45 @@ class Patient extends \yii\db\ActiveRecord
             'email' => Yii::t('app', 'patient.email'),
             'study' => Yii::t('app', 'patient.study'),
             'address' => Yii::t('app', 'patient.address'),
+            'doctors' => Yii::t('app', 'manager.patient.doctors'),
+            'doctor_ids' => Yii::t('app', 'manager.patient.doctors'),
+            'subgroups' => Yii::t('app', 'manager.sub_groups'),
+            'subgroup_ids' => Yii::t('app', 'manager.sub_groups'),
         ];
     }
 
-    public function getPatientSubGroups()
+    public function getSubgroups()
     {
-        return $this->hasMany(PatientSubGroup::className(), ['id' => 'subgroup'])->viaTable('patient_to_subgroup', ['patient_id' => 'id']);
+        return $this->hasMany(PatientSubGroup::className(), ['id' => 'subgroup_id'])->viaTable('subgroup_to_patient', ['patient_id' => 'id']);
     }
 
     public function getFullName()
     {
         return $this->last_name . ' ' . $this->first_name . ' ' . $this->patronymic;
+    }
+
+    public function getDoctors()
+    {
+        return $this->hasMany(Profile::className(), ['user_id' => 'id'])->viaTable('doc_to_patient', ['user_id' => 'id']);
+    }
+
+    public function getDoctorString()
+    {
+        $result = null;
+        foreach ($this->doctors as $doc) {
+            $result .= $doc->getFullName() . ', ';
+        }
+
+        return $result;
+    }
+
+    public function getSubgroupString()
+    {
+        $result = null;
+        foreach ($this->subgroups as $subgroup) {
+            $group = $subgroup->group->name;
+            $result .= $subgroup->name . ' (' . $group . '), ';
+        }
+        return $result;
     }
 }

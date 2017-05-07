@@ -26,6 +26,16 @@ class DistrictController extends Controller
                     'delete' => ['POST'],
                 ],
             ],
+            'access' => [
+                'class' => \yii\filters\AccessControl::className(),
+                'rules' => [
+                    // allow for manager only
+                    [
+                        'allow' => true,
+                        'roles' => ['manager'],
+                    ],
+                ],
+            ],
         ];
     }
 

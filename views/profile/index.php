@@ -14,7 +14,6 @@ $this->title = Yii::t('app', 'manager.doc.profiles');
 $this->params['breadcrumbs'][] = $this->title;
 
 CrudAsset::register($this);
-
 ?>
 <div class="profile-index col-md-11">
     <div id="ajaxCrudDatatable">

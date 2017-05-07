@@ -29,6 +29,16 @@ class PositionController extends Controller
                     'bulk-delete' => ['post'],
                 ],
             ],
+            'access' => [
+                'class' => \yii\filters\AccessControl::className(),
+                'rules' => [
+                    // allow for manager only
+                    [
+                        'allow' => true,
+                        'roles' => ['manager'],
+                    ],
+                ],
+            ],
         ];
     }
 

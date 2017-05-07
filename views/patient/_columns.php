@@ -1,44 +1,11 @@
 <?php
+use yii\helpers\ArrayHelper;
+use yii\helpers\Html;
 use yii\helpers\Url;
 
-return [
-    [
-        'class' => 'kartik\grid\CheckboxColumn',
-        'width' => '20px',
-    ],
-    [
-        'class' => 'kartik\grid\SerialColumn',
-        'width' => '30px',
-    ],
-    // [
-    // 'class'=>'\kartik\grid\DataColumn',
-    // 'attribute'=>'id',
-    // ],
-    [
-        'class' => '\kartik\grid\DataColumn',
-        'attribute' => 'first_name',
-    ],
-    [
-        'class' => '\kartik\grid\DataColumn',
-        'attribute' => 'last_name',
-    ],
-    [
-        'class' => '\kartik\grid\DataColumn',
-        'attribute' => 'patronymic',
-    ],
-    [
-        'class' => '\kartik\grid\DataColumn',
-        'attribute' => 'birthday',
-    ],
-    [
-        'class' => '\kartik\grid\DataColumn',
-        'attribute' => 'study',
-    ],
-    [
-        'class' => '\kartik\grid\DataColumn',
-        'attribute' => 'address',
-    ],
-    [
+$actionColumn = [];
+if (Yii::$app->user->can('manager')) {
+    $actionColumn = [
         'class' => 'kartik\grid\ActionColumn',
         'dropdown' => false,
         'vAlign' => 'middle',
@@ -53,6 +20,43 @@ return [
             'data-toggle' => 'tooltip',
             'data-confirm-title' => 'Are you sure?',
             'data-confirm-message' => 'Are you sure want to delete this item'],
-    ],
+    ];
+}
 
+if (Yii::$app->user->can('doc')) {
+    $actionColumn = [
+        'class' => '\kartik\grid\ActionColumn',
+        'template'=>'{card}',
+        'buttons' => [
+            'card' => function ($url, $model) {
+                return Html::a('<span class="glyphicon glyphicon-copy"></span>', ['#'], [
+                    'title' => 'медична карта',
+                ]);
+            }
+        ]
+    ];
+}
+
+return [
+    [
+        'class' => 'kartik\grid\CheckboxColumn',
+        'width' => '20px',
+    ],
+    [
+        'class' => 'kartik\grid\SerialColumn',
+        'width' => '30px',
+    ],
+    [
+        'class' => '\kartik\grid\DataColumn',
+        'attribute' => 'first_name',
+    ],
+    [
+        'class' => '\kartik\grid\DataColumn',
+        'attribute' => 'last_name',
+    ],
+    [
+        'class' => '\kartik\grid\DataColumn',
+        'attribute' => 'patronymic',
+    ],
+    $actionColumn
 ];   
