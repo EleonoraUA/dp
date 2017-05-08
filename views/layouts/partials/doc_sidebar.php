@@ -59,6 +59,24 @@ if (Yii::$app->user->can('manager')) {
             'icon' => 'ok',
         ],
     ]];
+
+    $items[] = ['url' => '#', 'label' => Yii::t('app', 'manager.menu.medical.inc_info'), 'items' => [
+        [
+            'label' => Yii::t('app', 'visit.symptoms'),
+            'url' => ['symptom/index'],
+            'icon' => 'ok',
+        ],
+        [
+            'label' => Yii::t('app', 'visit.complaints'),
+            'url' => ['complaint/index'],
+            'icon' => 'ok',
+        ],
+        [
+            'label' => Yii::t('app', 'visit.diagnosises'),
+            'url' => ['diagnosis/index'],
+            'icon' => 'ok',
+        ],
+    ]];
 }
 
 ?>

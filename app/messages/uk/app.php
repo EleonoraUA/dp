@@ -20,6 +20,7 @@ return [
     'doc.menu.visits' => 'Візити',
 
     'manager.menu.inc_info' => 'Ведення інформації',
+    'manager.menu.medical.inc_info' => 'Ведення медичної інформації',
     'manager.menu.inc_info.patients' => 'Пацієнти',
     'manager.menu.inc_info.calls' => 'Виклики',
     'manager.menu.inc_info.pat_groups' => 'Групи',
@@ -69,6 +70,14 @@ return [
     'patient.phone' => 'Телефон',
     'patient.study' => 'Місце навчання',
     'patient.address' => 'Адреса',
+
+    'visit.symptom' => 'Симптом',
+    'visit.symptoms' => 'Симптоми',
+    'visit.complaint' => 'Скарга',
+    'visit.complaints' => 'Скарги',
+    'visit.diagnosis' => 'Діагноз',
+    'visit.diagnosises' => 'Діагнози',
+    '' => '',
 
     /*
      * ERRORS
