@@ -2,6 +2,8 @@
 
 namespace app\controllers;
 
+use app\models\tables\MedicalCard;
+use app\models\tables\Visit;
 use Yii;
 use app\models\tables\Patient;
 use app\models\tables\PatientSearch;
@@ -118,6 +120,12 @@ class PatientController extends Controller
         
                 ];         
             }else if($model->load($request->post()) && $model->save()){
+                $card = new MedicalCard();
+                $card->patient_id = $model->id;
+                $card->save();
+
+                $model->card_id = $card->id;
+                $model->save();
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
                     'title'=> "Новий пацієнт",
@@ -222,6 +230,7 @@ class PatientController extends Controller
     public function actionDelete($id)
     {
         $request = Yii::$app->request;
+        Visit::deleteAll(['patient_id' => $id]);
         $this->findModel($id)->delete();
 
         if($request->isAjax){

@@ -2,7 +2,6 @@
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Url;
-
 $actionColumn = [];
 if (Yii::$app->user->can('manager')) {
     $actionColumn = [
@@ -29,7 +28,7 @@ if (Yii::$app->user->can('doc')) {
         'template'=>'{card}',
         'buttons' => [
             'card' => function ($url, $model) {
-                return Html::a('<span class="glyphicon glyphicon-copy"></span>', ['#'], [
+                return Html::a('<span class="glyphicon glyphicon-copy"></span>', ['visit/index', 'card_id' => $model->card_id], [
                     'title' => 'медична карта',
                 ]);
             }

@@ -3,9 +3,8 @@ use kartik\sidenav\SideNav;
 
 $items = [
     [
-        'url' => '#',
-        'label' => Yii::t('app', 'home'),
-        'icon' => 'home'
+        'label' => Yii::t('user', 'Profile'),
+        'url' => ['/user/profile/show', 'id' => Yii::$app->user->getIdentity()->getId()]
     ],
 ];
 
@@ -72,8 +71,13 @@ if (Yii::$app->user->can('manager')) {
             'icon' => 'ok',
         ],
         [
-            'label' => Yii::t('app', 'visit.diagnosises'),
+            'label' => Yii::t('app', 'visit.diagnoses'),
             'url' => ['diagnosis/index'],
+            'icon' => 'ok',
+        ],
+        [
+            'label' => Yii::t('app', 'medical_card.analyses'),
+            'url' => ['analyses/index'],
             'icon' => 'ok',
         ],
     ]];
@@ -83,8 +87,9 @@ if (Yii::$app->user->can('manager')) {
 
 <?=
 SideNav::widget([
-    'type' => SideNav::TYPE_PRIMARY,
+    'type' => SideNav::TYPE_DEFAULT,
     'heading' => 'Меню',
     'items' => $items,
+    'indItem' => '',
 ]);
 ?>

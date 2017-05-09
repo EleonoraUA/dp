@@ -40,6 +40,7 @@ class Patient extends \yii\db\ActiveRecord
                 'class' => ManyToManyBehavior::className(),
                 'relations' => [
                     'subgroup_ids' => 'subgroups',
+                    'user_id' => 'doctors'
                 ],
             ],
         ];
@@ -61,8 +62,8 @@ class Patient extends \yii\db\ActiveRecord
             [['subgroup_ids'], 'safe'],
             [['study_place_id'], 'integer'],
             ['address', 'string', 'max' => 100],
-            [['doctor_ids'], 'safe'],
             [['subgroups', 'subgroup_ids'], 'safe'],
+            [['card_id', 'user_id'], 'safe'],
         ];
     }
 
@@ -100,7 +101,7 @@ class Patient extends \yii\db\ActiveRecord
 
     public function getDoctors()
     {
-        return $this->hasMany(Profile::className(), ['user_id' => 'id'])->viaTable('doc_to_patient', ['user_id' => 'id']);
+        return $this->hasMany(Profile::className(), ['user_id' => 'user_id'])->viaTable('doc_to_patient', ['patient_id' => 'id']);
     }
 
     public function getDoctorString()
@@ -121,5 +122,10 @@ class Patient extends \yii\db\ActiveRecord
             $result .= $subgroup->name . ' (' . $group . '), ';
         }
         return $result;
+    }
+
+    public function getCard()
+    {
+        return $this->hasOne(MedicalCard::className(), ['id' => 'card_id']);
     }
 }

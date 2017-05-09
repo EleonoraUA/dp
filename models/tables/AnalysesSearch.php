@@ -5,12 +5,12 @@ namespace app\models\tables;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\tables\Visit;
+use app\models\tables\Analyses;
 
 /**
- * VisitSearch represents the model behind the search form about `app\models\tables\Visit`.
+ * AnalysesSearch represents the model behind the search form about `app\models\tables\Analyses`.
  */
-class VisitSearch extends Visit
+class AnalysesSearch extends Analyses
 {
     /**
      * @inheritdoc
@@ -19,7 +19,7 @@ class VisitSearch extends Visit
     {
         return [
             [['id'], 'integer'],
-            [['datetime', 'patient_id', 'doc_id', 'type'], 'safe'],
+            [['name'], 'safe'],
         ];
     }
 
@@ -41,19 +41,10 @@ class VisitSearch extends Visit
      */
     public function search($params)
     {
-        $query = Visit::find();
+        $query = Analyses::find();
 
-        $query->joinWith(['patient', 'doc']);
-
-        if (isset($params['card_id'])) {
-            $query->andFilterWhere([
-                'visit.card_id' => $params['card_id']
-            ]);
-
-        }
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'sort'=> ['defaultOrder' => ['datetime'=>SORT_DESC]]
         ]);
 
         $this->load($params);
@@ -68,12 +59,7 @@ class VisitSearch extends Visit
             'id' => $this->id,
         ]);
 
-        $query->andFilterWhere(['like', 'datetime', $this->datetime]);
-        $query->orFilterWhere(['like', 'patient.first_name', $this->patient_id])
-        ->orFilterWhere(['like', 'patient.last_name', $this->patient_id]);
-
-        $query->orFilterWhere(['like', 'profile.first_name', $this->doc_id])
-            ->orFilterWhere(['like', 'profile.last_name', $this->doc_id]);
+        $query->andFilterWhere(['like', 'name', $this->name]);
 
         return $dataProvider;
     }

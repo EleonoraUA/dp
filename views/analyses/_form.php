@@ -3,11 +3,11 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\tables\Complaint */
+/* @var $model app\models\tables\Analyses */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="complaint-form">
+<div class="analyses-form">
 
     <?php $form = ActiveForm::begin(); ?>
 
@@ -16,7 +16,7 @@ use yii\widgets\ActiveForm;
   
 	<?php if (!Yii::$app->request->isAjax){ ?>
 	  	<div class="form-group">
-	        <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'create') : Yii::t('app', 'update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+	        <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
 	    </div>
 	<?php } ?>
 

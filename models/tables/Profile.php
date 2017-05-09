@@ -2,6 +2,7 @@
 
 namespace app\models\tables;
 
+use voskobovich\behaviors\ManyToManyBehavior;
 use Yii;
 use \dektrium\user\models\User;
 use yii2tech\ar\linkmany\LinkManyBehavior;
@@ -47,10 +48,11 @@ class Profile extends \dektrium\user\models\Profile
     public function behaviors()
     {
         return [
-            'linkGroupBehavior' => [
-                'class' => LinkManyBehavior::className(),
-                'relation' => 'patients', // relation, which will be handled
-                'relationReferenceAttribute' => 'patient_ids', // virtual attribute, which is used for related records specification
+            [
+                'class' => ManyToManyBehavior::className(),
+                'relations' => [
+                    'patient_ids' => 'patients'
+                ],
             ],
         ];
     }
@@ -90,6 +92,6 @@ class Profile extends \dektrium\user\models\Profile
 
     public function getPatients()
     {
-        return $this->hasMany(Patient::className(), ['id' => 'user_id'])->viaTable('doc_to_patient', ['patient_id' => 'user_id']);
+        return $this->hasMany(Patient::className(), ['id' => 'patient_ids']);
     }
 }

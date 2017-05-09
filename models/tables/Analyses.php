@@ -6,13 +6,22 @@ use voskobovich\behaviors\ManyToManyBehavior;
 use Yii;
 
 /**
- * This is the model class for table "symptom".
+ * This is the model class for table "analyses".
  *
  * @property integer $id
  * @property string $name
+ *
+ * @property AnalysesResult[] $analysesResults
  */
-class Symptom extends \yii\db\ActiveRecord
+class Analyses extends \yii\db\ActiveRecord
 {
+    /**
+     * @inheritdoc
+     */
+    public static function tableName()
+    {
+        return 'analyses';
+    }
 
     public function behaviors()
     {
@@ -29,20 +38,10 @@ class Symptom extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
-    public static function tableName()
-    {
-        return 'symptom';
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function rules()
     {
         return [
             [['name'], 'string', 'max' => 255],
-            [['name'], 'unique', 'targetAttribute' => ['name']],
-            [['visit_ids'], 'safe'],
         ];
     }
 
@@ -53,8 +52,16 @@ class Symptom extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'name' => Yii::t('app', 'name'),
+            'name' => Yii::t('app', 'Name'),
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getAnalysesResults()
+    {
+        return $this->hasMany(AnalysesResult::className(), ['analyses_id' => 'id']);
     }
 
     public function getVisits()

@@ -5,12 +5,12 @@ namespace app\models\tables;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\tables\Visit;
+use app\models\tables\MedicalCard;
 
 /**
- * VisitSearch represents the model behind the search form about `app\models\tables\Visit`.
+ * MedicalCardSearch represents the model behind the search form about `app\models\tables\MedicalCard`.
  */
-class VisitSearch extends Visit
+class MedicalCardSearch extends MedicalCard
 {
     /**
      * @inheritdoc
@@ -18,8 +18,7 @@ class VisitSearch extends Visit
     public function rules()
     {
         return [
-            [['id'], 'integer'],
-            [['datetime', 'patient_id', 'doc_id', 'type'], 'safe'],
+            [['id', 'patient_id'], 'integer'],
         ];
     }
 
@@ -39,21 +38,16 @@ class VisitSearch extends Visit
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
+    public function search($params, $patient_id)
     {
-        $query = Visit::find();
+        $query = MedicalCard::find();
 
-        $query->joinWith(['patient', 'doc']);
+        $query->andFilterWhere([
+            'patient_id' => $patient_id
+        ]);
 
-        if (isset($params['card_id'])) {
-            $query->andFilterWhere([
-                'visit.card_id' => $params['card_id']
-            ]);
-
-        }
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'sort'=> ['defaultOrder' => ['datetime'=>SORT_DESC]]
         ]);
 
         $this->load($params);
@@ -66,14 +60,8 @@ class VisitSearch extends Visit
 
         $query->andFilterWhere([
             'id' => $this->id,
+            'patient_id' => $this->patient_id,
         ]);
-
-        $query->andFilterWhere(['like', 'datetime', $this->datetime]);
-        $query->orFilterWhere(['like', 'patient.first_name', $this->patient_id])
-        ->orFilterWhere(['like', 'patient.last_name', $this->patient_id]);
-
-        $query->orFilterWhere(['like', 'profile.first_name', $this->doc_id])
-            ->orFilterWhere(['like', 'profile.last_name', $this->doc_id]);
 
         return $dataProvider;
     }

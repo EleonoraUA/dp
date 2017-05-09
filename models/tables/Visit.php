@@ -2,6 +2,7 @@
 
 namespace app\models\tables;
 
+use voskobovich\behaviors\ManyToManyBehavior;
 use Yii;
 
 /**
@@ -31,6 +32,21 @@ class Visit extends \yii\db\ActiveRecord
         return 'visit';
     }
 
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => ManyToManyBehavior::className(),
+                'relations' => [
+                    'symptom_id' => 'symptoms',
+                    'complaints_id' => 'complaints',
+                    'diagnoses_id' => 'diagnoses',
+                    'analyses_id' => 'analyses',
+                ],
+            ],
+        ];
+    }
+
     /**
      * @inheritdoc
      */
@@ -44,6 +60,8 @@ class Visit extends \yii\db\ActiveRecord
             [['patient_id', 'doc_id', 'type', 'datetime'], 'required'],
             [['doc_id'], 'exist', 'skipOnError' => true, 'targetClass' => Profile::className(), 'targetAttribute' => ['doc_id' => 'user_id']],
             [['patient_id'], 'exist', 'skipOnError' => true, 'targetClass' => Patient::className(), 'targetAttribute' => ['patient_id' => 'id']],
+            [['card_id'], 'exist', 'skipOnError' => true, 'targetClass' => MedicalCard::className(), 'targetAttribute' => ['card_id' => 'id']],
+            [['symptom_id', 'diagnoses_id', 'complaints_id', 'analyses_id'], 'safe'],
         ];
     }
 
@@ -58,6 +76,12 @@ class Visit extends \yii\db\ActiveRecord
             'patient_id' => Yii::t('app', 'visit.patient_id'),
             'doc_id' => Yii::t('app', 'visit.doc_id'),
             'type' => Yii::t('app', 'visit.type'),
+            'symptoms' => Yii::t('app', 'visit.symptoms'),
+            'diagnosis' => Yii::t('app', 'visit.diagnoses'),
+            'complaints' => Yii::t('app', 'visit.complaints'),
+            'symptom_id' => Yii::t('app', 'visit.symptoms'),
+            'diagnoses_id' => Yii::t('app', 'visit.diagnoses'),
+            'complaints_id' => Yii::t('app', 'visit.complaints'),
         ];
     }
 
@@ -102,5 +126,30 @@ class Visit extends \yii\db\ActiveRecord
         }
 
         return $types;
+    }
+
+    public function getCard()
+    {
+        return $this->hasOne(MedicalCard::className(), ['id' => 'card_id']);
+    }
+
+    public function getSymptoms()
+    {
+        return $this->hasMany(Symptom::className(), ['id' => 'symptom_id'])->viaTable('visit_to_symptom', ['visit_id' => 'id']);
+    }
+
+    public function getComplaints()
+    {
+        return $this->hasMany(Complaint::className(), ['id' => 'complaint_id'])->viaTable('visit_to_complaint', ['visit_id' => 'id']);
+    }
+
+    public function getDiagnoses()
+    {
+        return $this->hasMany(Diagnosis::className(), ['id' => 'diagnosis_id'])->viaTable('visit_to_diagnosis', ['visit_id' => 'id']);
+    }
+
+    public function getAnalyses()
+    {
+        return $this->hasMany(Analyses::className(), ['id' => 'analyses_id'])->viaTable('visit_to_analyses', ['visit_id' => 'id']);
     }
 }

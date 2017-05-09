@@ -3,8 +3,8 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\tables\Diagnosis;
-use app\models\tables\DiagnosisSearch;
+use app\models\tables\Analyses;
+use app\models\tables\AnalysesSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -12,9 +12,9 @@ use \yii\web\Response;
 use yii\helpers\Html;
 
 /**
- * DiagnosisController implements the CRUD actions for Diagnosis model.
+ * AnalysesController implements the CRUD actions for Analyses model.
  */
-class DiagnosisController extends Controller
+class AnalysesController extends Controller
 {
     /**
      * @inheritdoc
@@ -29,26 +29,16 @@ class DiagnosisController extends Controller
                     'bulk-delete' => ['post'],
                 ],
             ],
-            'access' => [
-                'class' => \yii\filters\AccessControl::className(),
-                'rules' => [
-                    // allow for manager only
-                    [
-                        'allow' => true,
-                        'roles' => ['doctor'],
-                    ],
-                ],
-            ],
         ];
     }
 
     /**
-     * Lists all Diagnosis models.
+     * Lists all Analyses models.
      * @return mixed
      */
     public function actionIndex()
     {    
-        $searchModel = new DiagnosisSearch();
+        $searchModel = new AnalysesSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -59,7 +49,7 @@ class DiagnosisController extends Controller
 
 
     /**
-     * Displays a single Diagnosis model.
+     * Displays a single Analyses model.
      * @param integer $id
      * @return mixed
      */
@@ -69,12 +59,12 @@ class DiagnosisController extends Controller
         if($request->isAjax){
             Yii::$app->response->format = Response::FORMAT_JSON;
             return [
-                    'title'=> "Діагноз #".$id,
+                    'title'=> "Analyses #".$id,
                     'content'=>$this->renderAjax('view', [
                         'model' => $this->findModel($id),
                     ]),
-                    'footer'=> Html::button('Закрити',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Редагувати',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                            Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
                 ];    
         }else{
             return $this->render('view', [
@@ -84,7 +74,7 @@ class DiagnosisController extends Controller
     }
 
     /**
-     * Creates a new Diagnosis model.
+     * Creates a new Analyses model.
      * For ajax request will return json object
      * and for non-ajax request if creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
@@ -92,7 +82,7 @@ class DiagnosisController extends Controller
     public function actionCreate()
     {
         $request = Yii::$app->request;
-        $model = new Diagnosis();  
+        $model = new Analyses();  
 
         if($request->isAjax){
             /*
@@ -101,31 +91,31 @@ class DiagnosisController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Додати новий діагноз",
+                    'title'=> "Create new Analyses",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button('Закрити',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button('Зберегти',['class'=>'btn btn-primary','type'=>"submit"])
+                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
         
                 ];         
             }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "Додати новий діагноз",
-                    'content'=>'<span class="text-success">Create Diagnosis success</span>',
-                    'footer'=> Html::button('Закрити',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Створити ще',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                    'title'=> "Create new Analyses",
+                    'content'=>'<span class="text-success">Create Analyses success</span>',
+                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                            Html::a('Create More',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
         
                 ];         
             }else{           
                 return [
-                    'title'=> "Додати новий діагноз",
+                    'title'=> "Create new Analyses",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button('Закрити',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button('Зберегти',['class'=>'btn btn-primary','type'=>"submit"])
+                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
         
                 ];         
             }
@@ -145,7 +135,7 @@ class DiagnosisController extends Controller
     }
 
     /**
-     * Updates an existing Diagnosis model.
+     * Updates an existing Analyses model.
      * For ajax request will return json object
      * and for non-ajax request if update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
@@ -163,31 +153,31 @@ class DiagnosisController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Оновити діагноз #".$id,
+                    'title'=> "Update Analyses #".$id,
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button('Закрити',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button('Зберегти',['class'=>'btn btn-primary','type'=>"submit"])
+                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
                 ];         
             }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "Діагноз #".$id,
+                    'title'=> "Analyses #".$id,
                     'content'=>$this->renderAjax('view', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button('Закрити',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Редагувати',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                            Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
                 ];    
             }else{
                  return [
-                    'title'=> "Оновити діагноз #".$id,
+                    'title'=> "Update Analyses #".$id,
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button('Закрити',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button('Зберегти',['class'=>'btn btn-primary','type'=>"submit"])
+                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
                 ];        
             }
         }else{
@@ -205,7 +195,7 @@ class DiagnosisController extends Controller
     }
 
     /**
-     * Delete an existing Diagnosis model.
+     * Delete an existing Analyses model.
      * For ajax request will return json object
      * and for non-ajax request if deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
@@ -233,7 +223,7 @@ class DiagnosisController extends Controller
     }
 
      /**
-     * Delete multiple existing Diagnosis model.
+     * Delete multiple existing Analyses model.
      * For ajax request will return json object
      * and for non-ajax request if deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
@@ -264,15 +254,15 @@ class DiagnosisController extends Controller
     }
 
     /**
-     * Finds the Diagnosis model based on its primary key value.
+     * Finds the Analyses model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Diagnosis the loaded model
+     * @return Analyses the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Diagnosis::findOne($id)) !== null) {
+        if (($model = Analyses::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

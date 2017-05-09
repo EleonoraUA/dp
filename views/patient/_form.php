@@ -21,10 +21,10 @@ $doctors = ArrayHelper::map(Profile::find()->all(), 'user_id', 'fullName');
 
     <div class="row">
         <div class="col-md-4">
-            <?= $form->field($model, 'first_name')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'last_name')->textInput(['maxlength' => true]) ?>
         </div>
         <div class="col-md-4">
-            <?= $form->field($model, 'last_name')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'first_name')->textInput(['maxlength' => true]) ?>
         </div>
         <div class="col-md-4">
             <?= $form->field($model, 'patronymic')->textInput(['maxlength' => true]) ?>
@@ -33,6 +33,7 @@ $doctors = ArrayHelper::map(Profile::find()->all(), 'user_id', 'fullName');
 
     <?= $form->field($model, 'birthday')->widget(DatePicker::classname(), [
         'language' => 'uk',
+        'options' => ['placeholder' => '2001-01-29'],
         'dateFormat' => 'yyyy-MM-dd',
     ]) ?>
 
@@ -54,7 +55,7 @@ $doctors = ArrayHelper::map(Profile::find()->all(), 'user_id', 'fullName');
         ],
     ]); ?>
 
-    <?= $form->field($model, 'doctor_ids')->widget(Select2::classname(), [
+    <?= $form->field($model, 'user_id')->widget(Select2::classname(), [
         'data' => $doctors,
         'language' => Yii::$app->language,
         'theme' => Select2::THEME_BOOTSTRAP,

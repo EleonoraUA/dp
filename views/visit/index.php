@@ -5,25 +5,55 @@ use yii\bootstrap\Modal;
 use kartik\grid\GridView;
 use johnitvn\ajaxcrud\CrudAsset; 
 use johnitvn\ajaxcrud\BulkButtonWidget;
+use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\tables\VisitSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'doc.menu.visits');
+$cardMode = !empty($card_id);
+$this->title = $cardMode ? Yii::t('app', 'medical_card') : Yii::t('app', 'doc.menu.visits');
 $this->params['breadcrumbs'][] = $this->title;
 
 CrudAsset::register($this);
+if ($cardMode) {
+    $medicalCard = \app\models\tables\MedicalCard::findOne($card_id);
+    $patient = $medicalCard->patient;
+}
 
+$columnsFile = $cardMode ? '/_doc_columns.php' : '/_columns.php';
 ?>
 <div class="visit-index col-md-11">
+    <?php if ($cardMode) : ?>
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title"><?= $patient->getFullName() ?></h3>
+            </div>
+            <div class="panel-body">
+                <?= DetailView::widget([
+                    'model' => $patient,
+                    'attributes' => [
+                        'birthday',
+                        'phone',
+                        'email:email',
+                        'address',
+                        'study',
+                        [
+                            'label' => 'Підгрупи',
+                            'value' => $patient->getSubgroupString()
+                        ],
+                    ],
+                ]) ?>
+            </div>
+        </div>
+    <?php endif; ?>
     <div id="ajaxCrudDatatable">
         <?=GridView::widget([
             'id'=>'crud-datatable',
             'dataProvider' => $dataProvider,
             'filterModel' => $searchModel,
-            'pjax'=>true,
-            'columns' => require(__DIR__ . '/_columns.php'),
+            'pjax' => true,
+            'columns' => require(__DIR__ . $columnsFile),
             'toolbar'=> [
                 ['content'=>
                     Html::a('<i class="glyphicon glyphicon-plus"></i>', ['create'],

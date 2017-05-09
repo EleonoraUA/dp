@@ -2,6 +2,7 @@
 
 namespace app\models\tables;
 
+use voskobovich\behaviors\ManyToManyBehavior;
 use Yii;
 
 /**
@@ -20,6 +21,18 @@ class Diagnosis extends \yii\db\ActiveRecord
         return 'diagnosis';
     }
 
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => ManyToManyBehavior::className(),
+                'relations' => [
+                    'visit_ids' => 'visits'
+                ],
+            ],
+        ];
+    }
+
     /**
      * @inheritdoc
      */
@@ -27,6 +40,7 @@ class Diagnosis extends \yii\db\ActiveRecord
     {
         return [
             [['name'], 'string', 'max' => 255],
+            [['name'], 'unique', 'targetAttribute' => ['name']],
         ];
     }
 
@@ -37,7 +51,12 @@ class Diagnosis extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'name' => Yii::t('app', 'Name'),
+            'name' => Yii::t('app', 'name'),
         ];
+    }
+
+    public function getVisits()
+    {
+        return $this->hasMany(Visit::className(), ['id' => 'visit_ids']);
     }
 }

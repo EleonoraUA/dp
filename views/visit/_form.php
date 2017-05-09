@@ -1,7 +1,11 @@
 <?php
+use app\models\tables\Complaint;
+use app\models\tables\Diagnosis;
 use app\models\tables\Patient;
 use app\models\tables\Profile;
+use app\models\tables\Symptom;
 use kartik\datetime\DateTimePicker;
+use kartik\select2\Select2;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\jui\DatePicker;
@@ -13,6 +17,9 @@ use app\models\tables\Visit;
 /* @var $form yii\widgets\ActiveForm */
 $doctors = ArrayHelper::map(Profile::find()->all(), 'user_id', 'fullName');
 $patients = ArrayHelper::map(Patient::find()->all(), 'id', 'fullName');
+$symptoms = ArrayHelper::map(Symptom::find()->all(), 'id', 'name');
+$diagnoses = ArrayHelper::map(Diagnosis::find()->all(), 'id', 'name');
+$complaints = ArrayHelper::map(Complaint::find()->all(), 'id', 'name');
 ?>
 
 <div class="visit-form">
@@ -35,6 +42,37 @@ $patients = ArrayHelper::map(Patient::find()->all(), 'id', 'fullName');
     <?= $form->field($model, 'doc_id')->dropDownList($doctors) ?>
 
     <?= $form->field($model, 'type')->dropDownList(Visit::getVisitTypes()) ?>
+
+    <?= $form->field($model, 'complaints_id')->widget(Select2::classname(), [
+        'data' => $complaints,
+        'language' => Yii::$app->language,
+        'theme' => Select2::THEME_BOOTSTRAP,
+        'options' => ['multiple' => true, 'placeholder' => 'Скарги'],
+        'pluginOptions' => [
+            'allowClear' => true
+        ],
+    ]) ?>
+
+    <?= $form->field($model, 'symptom_id')->widget(Select2::classname(), [
+        'data' => $symptoms,
+        'language' => Yii::$app->language,
+        'theme' => Select2::THEME_BOOTSTRAP,
+        'options' => ['multiple' => true, 'placeholder' => 'Підгрупи'],
+        'pluginOptions' => [
+            'allowClear' => true
+        ],
+    ]) ?>
+
+
+    <?= $form->field($model, 'diagnoses_id')->widget(Select2::classname(), [
+        'data' => $diagnoses,
+        'language' => Yii::$app->language,
+        'theme' => Select2::THEME_BOOTSTRAP,
+        'options' => ['multiple' => true, 'placeholder' => 'Діагнози'],
+        'pluginOptions' => [
+            'allowClear' => true
+        ],
+    ]) ?>
 
 
     <?php if (!Yii::$app->request->isAjax) { ?>

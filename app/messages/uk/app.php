@@ -76,7 +76,9 @@ return [
     'visit.complaint' => 'Скарга',
     'visit.complaints' => 'Скарги',
     'visit.diagnosis' => 'Діагноз',
-    'visit.diagnosises' => 'Діагнози',
+    'visit.diagnoses' => 'Діагнози',
+    'medical_card' => 'Медична карта',
+    'medical_card.analyses' => 'Лабораторно - інструментальні дослідження',
     '' => '',
 
     /*

@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\tables\Patient;
 use Yii;
 use app\models\tables\Visit;
 use app\models\tables\VisitSearch;
@@ -35,7 +36,7 @@ class VisitController extends Controller
                     // allow for manager only
                     [
                         'allow' => true,
-                        'roles' => ['manager'],
+                        'roles' => ['manager', 'doctor'],
                     ],
                 ],
             ],
@@ -51,9 +52,11 @@ class VisitController extends Controller
         $searchModel = new VisitSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
+        $card_id = Yii::$app->request->queryParams['card_id'] ?? null;
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'card_id' => $card_id
         ]);
     }
 
@@ -110,6 +113,9 @@ class VisitController extends Controller
         
                 ];         
             }else if($model->load($request->post()) && $model->save()){
+                $patient = Patient::findOne($model->patient_id);
+                $model->card_id = $patient->card_id;
+                $model->save();
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
                     'title'=> "Додати новий візит",
