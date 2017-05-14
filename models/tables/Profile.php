@@ -41,7 +41,7 @@ class Profile extends \dektrium\user\models\Profile
             [['name', 'public_email'], 'string', 'max' => 255],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
             [['last_name', 'first_name', 'patronymic'], 'string', 'max' => 40],
-            [['patient_ids'], 'safe'],
+            [['patient_ids', 'district_ids'], 'safe'],
         ];
     }
 
@@ -51,7 +51,8 @@ class Profile extends \dektrium\user\models\Profile
             [
                 'class' => ManyToManyBehavior::className(),
                 'relations' => [
-                    'patient_ids' => 'patients'
+                    'patient_ids' => 'patients',
+                    'district_ids' => 'districts',
                 ],
             ],
         ];
@@ -93,5 +94,10 @@ class Profile extends \dektrium\user\models\Profile
     public function getPatients()
     {
         return $this->hasMany(Patient::className(), ['id' => 'patient_ids']);
+    }
+
+    public function getDistricts()
+    {
+        return $this->hasMany(District::className(), ['id' => 'district_id'])->viaTable('doctor_to_district', ['user_id' => 'user_id']);
     }
 }

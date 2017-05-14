@@ -30,7 +30,7 @@ $this->title = Yii::t('app', 'header');
         'brandLabel' => Yii::t('app', 'header'),
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
-            'class' => 'navbar navbar-default',
+            'class' => 'navbar navbar-inverse',
         ],
     ]);
     $navItems = [];

@@ -2,6 +2,7 @@
 
 namespace app\models\tables;
 
+use voskobovich\behaviors\ManyToManyBehavior;
 use Yii;
 
 /**
@@ -19,6 +20,18 @@ class District extends \yii\db\ActiveRecord
     public static function tableName()
     {
         return 'district';
+    }
+
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => ManyToManyBehavior::className(),
+                'relations' => [
+                    'user_id' => 'doctors'
+                ],
+            ],
+        ];
     }
 
     /**
@@ -49,5 +62,10 @@ class District extends \yii\db\ActiveRecord
     public function getClinicId()
     {
         return $this->hasOne(Clinic::className(), ['id' => 'clinic_id']);
+    }
+
+    public function getDoctors()
+    {
+        return $this->hasMany(Profile::className(), ['user_id' => 'user_id'])->viaTable('doctor_to_district', ['district_id' => 'id']);
     }
 }

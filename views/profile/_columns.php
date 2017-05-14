@@ -45,6 +45,30 @@ return [
         'attribute' => 'public_email',
     ],
     [
+        'class' => '\kartik\grid\DataColumn',
+        'attribute' => 'district_ids',
+        'value' => function ($item) {
+            $result = null;
+            foreach ($item->district_ids as $district_id) {
+                $district = \app\models\tables\District::findOne($district_id);
+                if (!$district instanceof \app\models\tables\District) {
+                    return $result;
+                }
+                $clinic = \app\models\tables\Clinic::findOne($district->clinic_id ?? 0);
+                $clinicName = '-';
+                if ($clinic instanceof \app\models\tables\Clinic) {
+                    $clinicName = $clinic->name;
+                }
+                $result .= '(Амб. '.$clinicName . ') '
+                    . $district->street ?? null . ' '
+                    . $district->building ?? null . ' '
+                    . $district->flat ?? null;
+                $result .= ', ';
+            }
+            return substr($result, 0, -2);
+        }
+    ],
+    [
         'class' => 'kartik\grid\ActionColumn',
         'dropdown' => false,
         'vAlign' => 'middle',

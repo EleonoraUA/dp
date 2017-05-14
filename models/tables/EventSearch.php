@@ -1,37 +1,19 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: eleonoria
+ * Date: 5/13/17
+ * Time: 7:39 PM
+ */
 
 namespace app\models\tables;
 
+
 use Yii;
-use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\tables\Visit;
 
-/**
- * VisitSearch represents the model behind the search form about `app\models\tables\Visit`.
- */
-class VisitSearch extends Visit
+class EventSearch extends VisitSearch
 {
-    /**
-     * @inheritdoc
-     */
-    public function rules()
-    {
-        return [
-            [['id'], 'integer'],
-            [['datetime', 'patient_id', 'doc_id', 'type'], 'safe'],
-        ];
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function scenarios()
-    {
-        // bypass scenarios() implementation in the parent class
-        return Model::scenarios();
-    }
-
     /**
      * Creates data provider instance with search query applied
      *
@@ -45,16 +27,14 @@ class VisitSearch extends Visit
 
         $query->joinWith(['patient', 'doc']);
 
-        if (isset($params['card_id'])) {
-            $query->andFilterWhere([
-                'visit.card_id' => $params['card_id'],
-                'visit.doc_id' => Yii::$app->user->getId()
-            ]);
+        $query->andFilterWhere([
+            'visit.doc_id' => Yii::$app->user->getId()
+        ]);
+//        $query->andFilterWhere(['>', 'datetime', date('Y-m-d').' 00:00:00']);
 
-        }
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'sort'=> ['defaultOrder' => ['datetime'=>SORT_DESC]]
+            'sort' => ['defaultOrder' => ['datetime' => SORT_ASC]]
         ]);
 
         $this->load($params);
@@ -71,7 +51,7 @@ class VisitSearch extends Visit
 
         $query->andFilterWhere(['like', 'datetime', $this->datetime]);
         $query->orFilterWhere(['like', 'patient.first_name', $this->patient_id])
-        ->orFilterWhere(['like', 'patient.last_name', $this->patient_id]);
+            ->orFilterWhere(['like', 'patient.last_name', $this->patient_id]);
 
         $query->orFilterWhere(['like', 'profile.first_name', $this->doc_id])
             ->orFilterWhere(['like', 'profile.last_name', $this->doc_id]);

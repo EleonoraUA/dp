@@ -9,6 +9,8 @@ use yii\helpers\Html;
 
     <?= $this->render('_form', [
         'model' => $model,
+        'card_id' => Yii::$app->getRequest()->getQueryParam('card_id'),
+        'isUpdate' => true
     ]) ?>
 
 </div>

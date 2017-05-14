@@ -20,21 +20,6 @@ return [
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'patient_id',
-        'value' => function ($item) {
-            return $item->patient->getFullName();
-        }
-    ],
-    [
-        'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'doc_id',
-        'value' => function ($item) {
-            return $item->doc->getFullName();
-
-        }
-    ],
-    [
-        'class'=>'\kartik\grid\DataColumn',
         'attribute' => 'complaints',
         'value' => function ($item) {
             $result = null;
@@ -79,7 +64,7 @@ return [
         'dropdown' => false,
         'vAlign'=>'middle',
         'urlCreator' => function($action, $model, $key, $index) {
-            return Url::to([$action,'id'=>$key]);
+            return Url::to([$action,'id'=>$key, 'card_id' => Yii::$app->getRequest()->getQueryParam('card_id')]);
         },
         'viewOptions'=>['role'=>'modal-remote','title'=>'View','data-toggle'=>'tooltip'],
         'updateOptions'=>['role'=>'modal-remote','title'=>'Update', 'data-toggle'=>'tooltip'],

@@ -39,12 +39,16 @@ class DistrictSearch extends District
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
+    public function search($params, $fixed = false)
     {
         $query = District::find();
 
         $query->joinWith('clinicId');
 
+        if ($fixed) {
+            $query->joinWith('doctors');
+            $query->andFilterWhere(['doctor_to_district.user_id' => Yii::$app->user->getId()]);
+        }
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([

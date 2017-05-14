@@ -36,7 +36,12 @@ class VisitController extends Controller
                     // allow for manager only
                     [
                         'allow' => true,
-                        'roles' => ['manager', 'doctor'],
+                        'roles' => ['manager'],
+                    ],
+                    [
+                        'allow' => true,
+                        'actions' => ['index', 'view', 'update', 'create'],
+                        'roles' => ['doctor'],
                     ],
                 ],
             ],
@@ -160,7 +165,7 @@ class VisitController extends Controller
     public function actionUpdate($id)
     {
         $request = Yii::$app->request;
-        $model = $this->findModel($id);       
+        $model = $this->findModel($id);
 
         if($request->isAjax){
             /*
@@ -220,6 +225,7 @@ class VisitController extends Controller
     public function actionDelete($id)
     {
         $request = Yii::$app->request;
+
         $this->findModel($id)->delete();
 
         if($request->isAjax){
@@ -237,7 +243,6 @@ class VisitController extends Controller
 
 
     }
-
      /**
      * Delete multiple existing Visit model.
      * For ajax request will return json object

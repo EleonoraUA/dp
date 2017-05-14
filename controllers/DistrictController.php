@@ -34,6 +34,11 @@ class DistrictController extends Controller
                         'allow' => true,
                         'roles' => ['manager'],
                     ],
+                    [
+                        'allow' => true,
+                        'actions' => ['index'],
+                        'roles' => ['doctor'],
+                    ],
                 ],
             ],
         ];
@@ -49,6 +54,17 @@ class DistrictController extends Controller
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    public function actionFixed()
+    {
+        $searchModel = new DistrictSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams, true);
+
+        return $this->render('fixed', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);

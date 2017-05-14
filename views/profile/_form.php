@@ -1,6 +1,7 @@
 <?php
 use app\models\tables\Patient;
 use app\models\tables\Position;
+use kartik\select2\Select2;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
@@ -10,6 +11,7 @@ use yii\widgets\ActiveForm;
 /* @var $form yii\widgets\ActiveForm */
 $positions = ArrayHelper::map(Position::find()->all(), 'id', 'name');
 $users = ArrayHelper::map(\dektrium\user\models\User::find()->all(), 'id', 'username');
+$districts = ArrayHelper::map(\app\models\tables\District::find()->all(), 'id', 'street');
 ?>
 
 <div class="profile-form">
@@ -28,7 +30,15 @@ $users = ArrayHelper::map(\dektrium\user\models\User::find()->all(), 'id', 'user
 
     <?= $form->field($model, 'public_email')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'patient_ids')->checkboxList(ArrayHelper::map(Patient::find()->all(), 'id', 'first_name')); ?>
+    <?= $form->field($model, 'district_ids')->widget(Select2::classname(), [
+        'data' => $districts,
+        'language' => Yii::$app->language,
+        'theme' => Select2::THEME_BOOTSTRAP,
+        'options' => ['multiple' => true, 'placeholder' => 'Дільниці'],
+        'pluginOptions' => [
+            'allowClear' => true
+        ],
+    ]) ?>
 
   
 	<?php if (!Yii::$app->request->isAjax){ ?>

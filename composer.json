@@ -28,7 +28,8 @@
         "kartik-v/yii2-widget-datetimepicker": "*",
         "voskobovich/yii2-linker-behavior": "^4.0",
         "yii2tech/ar-linkmany": "^1.0",
-        "voskobovich/yii2-many-many-behavior": "^3.0"
+        "voskobovich/yii2-many-many-behavior": "^3.0",
+        "jameyg/yii2-bootstrap-ace-theme": "^2.0"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

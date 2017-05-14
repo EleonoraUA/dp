@@ -23,6 +23,8 @@ class Visit extends \yii\db\ActiveRecord
     private const VISIT_HOME_TYPE_NAME = 'Вдома';
     const VISIT_CLINIC_TYPE_NUMBER = 2;
     private const VISIT_CLINIC_TYPE_NAME = 'У лікарні';
+    const VISIT_PLANNED_TYPE_NUMBER = 3;
+    private const VISIT_PLANNED_TYPE_NAME = 'Запланований';
 
     /**
      * @inheritdoc
@@ -105,7 +107,8 @@ class Visit extends \yii\db\ActiveRecord
     {
         $types = [
             self::VISIT_HOME_TYPE_NUMBER => self::VISIT_HOME_TYPE_NAME,
-            self::VISIT_CLINIC_TYPE_NUMBER => self::VISIT_CLINIC_TYPE_NAME
+            self::VISIT_CLINIC_TYPE_NUMBER => self::VISIT_CLINIC_TYPE_NAME,
+            self::VISIT_PLANNED_TYPE_NUMBER => self::VISIT_PLANNED_TYPE_NAME,
         ];
         if (!empty($type) && isset($types[$type])) {
             return $types[$type];
@@ -119,6 +122,7 @@ class Visit extends \yii\db\ActiveRecord
         $types = [
             self::VISIT_HOME_TYPE_NAME => self::VISIT_HOME_TYPE_NUMBER,
             self::VISIT_CLINIC_TYPE_NAME => self::VISIT_CLINIC_TYPE_NUMBER,
+            self::VISIT_PLANNED_TYPE_NAME => self::VISIT_PLANNED_TYPE_NUMBER,
         ];
 
         if (!empty($type) && isset($types[$type])) {
