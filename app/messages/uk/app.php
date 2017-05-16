@@ -80,6 +80,7 @@ return [
     'medical_card' => 'Медична карта',
     'medical_card.analyses' => 'Лабораторно - інструментальні дослідження',
     'doctor.events' => 'Майбутні події',
+    'doctor.districts' => 'Закріплені дільниці',
     '' => '',
 
     /*

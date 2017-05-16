@@ -65,7 +65,7 @@ class DistrictSearch extends District
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'id' => $this->id,
+            'district.id' => $this->id,
         ]);
 
         $query->andFilterWhere(['like', 'street', $this->street])

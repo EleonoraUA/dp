@@ -7,12 +7,14 @@ use yii\widgets\Pjax;
 /* @var $searchModel app\models\tables\DistrictSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'manager.districts');
+$this->title = Yii::t('app', 'doctor.districts');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="district-index col-md-8 col-md-offset-1">
+<div class="district-index col-md-11">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <div class="page-header">
+        <h3><?= Html::encode($this->title) ?></h3>
+    </div>
     <?php Pjax::begin(); ?>    <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
