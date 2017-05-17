@@ -1,5 +1,6 @@
 <?php
 use kartik\sidenav\SideNav;
+use rmrevin\yii\fontawesome\FA;
 
 $items = [
     [
@@ -56,6 +57,14 @@ if (Yii::$app->user->can('manager')) {
             'label' => Yii::t('app', 'manager.doc.profiles'),
             'url' => ['profile/index'],
         ],
+        [
+            'label' => Yii::t('app', 'manager.vaccination'),
+            'url' => ['vaccination/index'],
+        ],
+        [
+            'label' => Yii::t('app', 'manager.vaccination_age'),
+            'url' => ['vaccination-age/index'],
+        ],
     ]];
 
     $items[] = ['url' => '#', 'label' => Yii::t('app', 'manager.menu.medical.inc_info'), 'items' => [
@@ -75,6 +84,10 @@ if (Yii::$app->user->can('manager')) {
             'label' => Yii::t('app', 'medical_card.analyses'),
             'url' => ['analyses/index'],
         ],
+        [
+            'label' => Yii::t('app', 'doctor.vaccination.medicine'),
+            'url' => ['medicine/index'],
+        ]
     ]];
 }
 

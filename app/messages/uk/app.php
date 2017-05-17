@@ -81,6 +81,11 @@ return [
     'medical_card.analyses' => 'Лабораторно - інструментальні дослідження',
     'doctor.events' => 'Майбутні події',
     'doctor.districts' => 'Закріплені дільниці',
+    'manager.vaccination' => 'Щеплення',
+    'manager.vaccination_age' => 'Вік щеплень',
+    'age' => 'Вік',
+    'doctor.vaccination.medicine' => 'Препарати',
+    'doctor.vaccination-mark' => 'Відмітка про щеплення',
     '' => '',
 
     /*

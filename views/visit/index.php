@@ -1,4 +1,5 @@
 <?php
+use rmrevin\yii\fontawesome\FA;
 use yii\helpers\Url;
 use yii\helpers\Html;
 use yii\bootstrap\Modal;
@@ -46,7 +47,10 @@ $panel = $cardMode ? [] : [
 <div class="visit-index col-md-11">
     <?php if ($cardMode) : ?>
         <div class="page-header">
-            <h3><?= $patient->getFullName() ?></h3>
+            <h3>
+                <?= $patient->getFullName() ?>
+                <?= Html::a(' (карта щеплень) ', ['vaccination-mark/index', 'pat_id' => $patient->id]); ?>
+            </h3>
         </div>
         <?= DetailView::widget([
             'model' => $patient,
