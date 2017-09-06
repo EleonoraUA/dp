@@ -2,6 +2,7 @@
 
 namespace app\models\tables;
 
+use voskobovich\behaviors\ManyToManyBehavior;
 use Yii;
 
 /**
@@ -30,17 +31,30 @@ class VaccinationMark extends \yii\db\ActiveRecord
         return 'vaccination_mark';
     }
 
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => ManyToManyBehavior::className(),
+                'relations' => [
+                    'vaccination_id' => 'vaccination',
+                ],
+            ],
+        ];
+    }
+
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['patient_id', 'vaccination_id', 'medicine_id'], 'integer'],
+            [['patient_id', 'vaccination_id', 'medicine_id', 'dose', 'reaction'], 'required'],
             [['date', 'dose', 'reaction', 'contraindication'], 'string', 'max' => 255],
-            [['medicine_id'], 'exist', 'skipOnError' => true, 'targetClass' => Medicine::className(), 'targetAttribute' => ['medicine_id' => 'id']],
+//            [['medicine_id'], 'exist', 'skipOnError' => true, 'targetClass' => Medicine::className(), 'targetAttribute' => ['medicine_id' => 'id']],
             [['patient_id'], 'exist', 'skipOnError' => true, 'targetClass' => Patient::className(), 'targetAttribute' => ['patient_id' => 'id']],
-            [['vaccination_id'], 'exist', 'skipOnError' => true, 'targetClass' => Vaccination::className(), 'targetAttribute' => ['vaccination_id' => 'id']],
+//            [['vaccination_id'], 'exist', 'skipOnError' => true, 'targetClass' => Vaccination::className(), 'targetAttribute' => ['vaccination_id' => 'id']],
+            [['vaccination_id', 'medicine_id'], 'safe']
         ];
     }
 
@@ -51,13 +65,13 @@ class VaccinationMark extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'patient_id' => Yii::t('app', 'Patient ID'),
-            'vaccination_id' => Yii::t('app', 'Vaccination ID'),
-            'date' => Yii::t('app', 'Date'),
-            'dose' => Yii::t('app', 'Dose'),
-            'reaction' => Yii::t('app', 'Reaction'),
-            'medicine_id' => Yii::t('app', 'Medicine ID'),
-            'contraindication' => Yii::t('app', 'Contraindication'),
+            'patient_id' =>  'Пацієнт',
+            'vaccination_id' => 'Назва щеплення',
+            'date' => 'Дата',
+            'dose' => 'Дозування',
+            'reaction' => 'Реакція',
+            'medicine_id' => 'Препарат',
+            'contraindication' => 'Протипоказання',
         ];
     }
 

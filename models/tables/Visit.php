@@ -63,7 +63,7 @@ class Visit extends \yii\db\ActiveRecord
             [['doc_id'], 'exist', 'skipOnError' => true, 'targetClass' => Profile::className(), 'targetAttribute' => ['doc_id' => 'user_id']],
             [['patient_id'], 'exist', 'skipOnError' => true, 'targetClass' => Patient::className(), 'targetAttribute' => ['patient_id' => 'id']],
             [['card_id'], 'exist', 'skipOnError' => true, 'targetClass' => MedicalCard::className(), 'targetAttribute' => ['card_id' => 'id']],
-            [['symptom_id', 'diagnoses_id', 'complaints_id', 'analyses_id'], 'safe'],
+            [['symptom_id', 'diagnoses_id', 'complaints_id', 'analyses_id', 'medicine'], 'safe'],
         ];
     }
 
@@ -84,6 +84,7 @@ class Visit extends \yii\db\ActiveRecord
             'symptom_id' => Yii::t('app', 'visit.symptoms'),
             'diagnoses_id' => Yii::t('app', 'visit.diagnoses'),
             'complaints_id' => Yii::t('app', 'visit.complaints'),
+            'medicine' => 'Лікування'
         ];
     }
 

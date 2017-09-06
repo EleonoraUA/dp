@@ -64,4 +64,26 @@ class Vaccination extends \yii\db\ActiveRecord
     {
         return $this->hasMany(VaccinationAge::className(), ['id' => 'age_id'])->viaTable('vaccination_to_age', ['vaccination_id' => 'id']);
     }
+
+    public function getNameString()
+    {
+        $ages = $this->ages;
+        $result = '';
+        foreach ($ages as $age) {
+            $days = $age->age;
+            $result1 = $days . ' дн.';
+            if ($days >= 30 && $days < 365) {
+                $result1 = ($days / 30) . 'міс.';
+            } else if ($days >= 365 && $days <= 545) {
+                $result1 = floor($days / 30) . 'міс.';
+            } else if ($days > 545) {
+                $result1 = ($days / 365) . ' р.';
+            }
+            $result1 .= ', ';
+
+            $result .= $result1;
+        }
+
+        return substr($this->name . ' (' .  $result, 0, -2) . ')';
+    }
 }

@@ -16,6 +16,7 @@ use app\models\tables\Visit;
 /* @var $model app\models\tables\Visit */
 /* @var $form yii\widgets\ActiveForm */
 $doctors = ArrayHelper::map(Profile::find()->all(), 'user_id', 'fullName');
+unset($doctors[1]);
 $patients = ArrayHelper::map(Patient::find()->all(), 'id', 'fullName');
 $symptoms = ArrayHelper::map(Symptom::find()->all(), 'id', 'name');
 $diagnoses = ArrayHelper::map(Diagnosis::find()->all(), 'id', 'name');
@@ -96,6 +97,8 @@ $isDoctor = Yii::$app->user->can('doc');
                 'allowClear' => true
             ],
         ]) ?>
+
+        <?= $form->field($model, 'medicine')->textarea() ?>
 
     <?php endif; ?>
 

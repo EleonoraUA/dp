@@ -13,6 +13,7 @@ use yii\helpers\ArrayHelper;
 $subgroups = ArrayHelper::map(PatientSubGroup::find()->all(), 'id', 'name');
 $studyPlaces = ArrayHelper::map(\app\models\tables\StudyPlace::find()->all(), 'id', 'name');
 $doctors = ArrayHelper::map(Profile::find()->all(), 'user_id', 'fullName');
+unset($doctors[1]);
 ?>
 
 <div class="patient-form">

@@ -29,16 +29,16 @@ class DiagnosisController extends Controller
                     'bulk-delete' => ['post'],
                 ],
             ],
-            'access' => [
-                'class' => \yii\filters\AccessControl::className(),
-                'rules' => [
-                    // allow for manager only
-                    [
-                        'allow' => true,
-                        'roles' => ['doctor'],
-                    ],
-                ],
-            ],
+//            'access' => [
+//                'class' => \yii\filters\AccessControl::className(),
+//                'rules' => [
+//                    // allow for manager only
+//                    [
+//                        'allow' => true,
+//                        'roles' => ['doctor'],
+//                    ],
+//                ],
+//            ],
         ];
     }
 

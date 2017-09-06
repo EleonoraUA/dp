@@ -51,6 +51,7 @@ return [
             return substr($result, 0, -2);
         }
     ],
+    'medicine',
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'type',

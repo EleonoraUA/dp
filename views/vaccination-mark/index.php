@@ -23,6 +23,15 @@ CrudAsset::register($this);
 ?>
 <div class="vaccination-mark-index col-md-11">
     <div id="ajaxCrudDatatable">
+        <h3>
+            <?= $patient->getFullName() ?> <br/>
+            <hr>
+            <div class="row">
+                <div class="col-md-offset-4">
+                Карта профілактичних щеплень (форма 063)
+                </div>
+            </div>
+        </h3>
         <?=GridView::widget([
             'id'=>'crud-datatable',
             'dataProvider' => $dataProvider,
@@ -31,7 +40,7 @@ CrudAsset::register($this);
             'columns' => require(__DIR__ . '/_columns.php'),
             'toolbar'=> [
                 ['content'=>
-                    Html::a('<i class="glyphicon glyphicon-plus"></i>', ['create'],
+                    Html::a('<i class="glyphicon glyphicon-plus"></i>', ['create', 'pat_id' => Yii::$app->getRequest()->getQueryParam('pat_id')],
                     ['role'=>'modal-remote','title'=> 'Create new Vaccination Marks','class'=>'btn btn-default']).
                     Html::a('<i class="glyphicon glyphicon-repeat"></i>', [''],
                     ['data-pjax'=>1, 'class'=>'btn btn-default', 'title'=>'Reset Grid']).
@@ -44,10 +53,10 @@ CrudAsset::register($this);
             'responsive' => true,          
             'panel' => [
                 'type' => 'primary', 
-                'heading' => '<i class="glyphicon glyphicon-list"></i> Vaccination Marks listing',
-                'before'=>'<em>* Resize table columns just like a spreadsheet by dragging the column edges.</em>',
+                'heading' => '<i class="glyphicon glyphicon-list"></i> Список щеплень',
+                'before'=>'<em></em>',
                 'after'=>BulkButtonWidget::widget([
-                            'buttons'=>Html::a('<i class="glyphicon glyphicon-trash"></i>&nbsp; Delete All',
+                            'buttons'=>Html::a('<i class="glyphicon glyphicon-trash"></i>&nbsp; Видалити все',
                                 ["bulk-delete"] ,
                                 [
                                     "class"=>"btn btn-danger btn-xs",

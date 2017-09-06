@@ -33,7 +33,7 @@ class PatientSubGroup extends \yii\db\ActiveRecord
             [['name'], 'string', 'max' => 50],
             [['name', 'group_id'], 'required'],
             [['group_id'], 'exist', 'skipOnError' => true, 'targetClass' => PatientGroup::className(), 'targetAttribute' => ['group_id' => 'id']],
-            [['patient_id'], 'exist', 'skipOnError' => true, 'targetClass' => Patient::className(), 'targetAttribute' => ['patient_id' => 'id']],
+//            [['patient_id'], 'exist', 'skipOnError' => true, 'targetClass' => Patient::className(), 'targetAttribute' => ['patient_id' => 'id']],
         ];
     }
 
@@ -57,9 +57,9 @@ class PatientSubGroup extends \yii\db\ActiveRecord
         return $this->hasOne(PatientGroup::className(), ['id' => 'group_id']);
     }
 
-    public function getPatients()
-    {
-        return $this->hasMany(Patient::className(), ['id' => 'subgroup_id']);
-    }
+//    public function getPatients()
+//    {
+//        return $this->hasMany(Patient::className(), ['id' => 'subgroup_id']);
+//    }
 
 }

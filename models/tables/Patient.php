@@ -84,6 +84,7 @@ class Patient extends \yii\db\ActiveRecord
             'address' => Yii::t('app', 'patient.address'),
             'doctors' => Yii::t('app', 'manager.patient.doctors'),
             'doctor_ids' => Yii::t('app', 'manager.patient.doctors'),
+            'user_id' => Yii::t('app', 'manager.patient.doctors'),
             'subgroups' => Yii::t('app', 'manager.sub_groups'),
             'subgroup_ids' => Yii::t('app', 'manager.sub_groups'),
         ];

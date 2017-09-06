@@ -43,6 +43,7 @@ class ProfileSearch extends Profile
         $query = Profile::find();
 
         $query->joinWith(['position', 'user']);
+
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
